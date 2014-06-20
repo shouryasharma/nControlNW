@@ -12,8 +12,8 @@ Best in class product to perform simple tasks such as:
     <li>Fast POS billing. Just click and add products to bill.
     <li>storing of sales data</li> 
     <li>viewing it for later use such as:</li>
-    &nbsp;&nbsp;&nbsp;&nbsp;Checking the balance(credits-debits)
-    &nbsp;&nbsp;&nbsp;&nbsp;Checking the details for each individual entry(bill/manual entry
+    &nbsp;&nbsp;&nbsp;&nbsp;Checking the balance(credits-debits)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;Checking the details for each individual entry(bill/manual entry)<br>
     &nbsp;&nbsp;&nbsp;&nbsp;removal of entry
     <li>crediting/debiting entries manually</li>
     <li>basic stock management</li>
