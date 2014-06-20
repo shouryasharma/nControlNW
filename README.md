@@ -9,7 +9,7 @@ Best in class product to perform simple tasks such as:
   <blockquote>
   <ul>
     <li>printing a reciept</li>
-    <li>Fast POS billing. Just click and add products to bill.
+    <li>Fast POS billing: <i>just click and add products to the bill</i>
     <li>storing of sales data</li> 
     <li>viewing it for later use such as:</li>
     &nbsp;&nbsp;&nbsp;&nbsp;Checking the balance(credits-debits)<br>
@@ -20,7 +20,7 @@ Best in class product to perform simple tasks such as:
   </ul>
   </blockquote>
   
-In nControl entries are of 2 types:
+In nControl, entries are of 2 types:
 <blockquote>
 <ul>
     <li>Manual(credit/debit)</li>
@@ -28,4 +28,4 @@ In nControl entries are of 2 types:
 </ul>
 </blockquote>
   
-nControl is currently in pre-BETA<br><br>Copyright 2011-14 <b>Nemi Consultancy Services</b>. All rights reserved. Visit us at www.nemi.in<br><br>Made with love for web technologies by <b>Nemi Consultancy Services</b>.<br><br>This software dedicated to my father: Mr. Nemi Chand Sharma and my cousin: Mr. Shreiansh Sharma.<br> - <i>Shourya Sharma</i></div>
+nControl is currently in pre-BETA<br><br>Copyright 2011-14 <b><a href="http://www.nemi.in/">Nemi Consultancy Services</a></b>. All rights reserved. Visit us at www.nemi.in<br><br>Made with love for web technologies by <b>Nemi Consultancy Services</b>.<br><br>This software dedicated to my father: Mr. Nemi Chand Sharma and my cousin: Mr. Shreiansh Sharma.<br> - <i>Shourya Sharma</i><br>shouryasharma@gmail.com</div>
