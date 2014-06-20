@@ -8,7 +8,8 @@ A solution engineered in India for the retail, F&B (Foods and Beverages), Restau
 Best in class product to perform simple tasks such as:
   <blockquote>
   <ul>
-    <li>printing a reciept</li> 
+    <li>printing a reciept</li>
+    <li>Fast POS billing. Just click and add products to bill.
     <li>storing of sales data and</li> 
     <li>viewing it for later use</li> 
   </ul>
