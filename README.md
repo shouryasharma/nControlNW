@@ -12,11 +12,9 @@ Best in class product to perform simple tasks such as:
     <li>Fast POS billing. Just click and add products to bill.
     <li>storing of sales data</li> 
     <li>viewing it for later use such as:</li>
-    <ol>
-       <li>Checking the balance(credits-debits)</li> 
-       <li>Checking the details for each individual entry(bill/manual entry)</li> 
-       <li>removal of entry</li> 
-    </ol>
+    &nbsp;&nbsp;&nbsp;&nbsp;Checking the balance(credits-debits)
+    &nbsp;&nbsp;&nbsp;&nbsp;Checking the details for each individual entry(bill/manual entry
+    &nbsp;&nbsp;&nbsp;&nbsp;removal of entry
     <li>crediting/debiting entries manually</li>
     <li>basic stock management</li>
   </ul>
