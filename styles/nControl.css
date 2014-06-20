@@ -1,0 +1,514 @@
+/*
+Copyright: Nemi Consultancy Services 2011-14. All rights reserved.
+Copying, distributing, redistributing code or any part of this application without prior written consent is prohibited. 
+Please contact us at contact@nemi.in for further information.
+*/
+
+/*
+reset any pre-loaded styles
+*/
+
+.tt-dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    display: none;
+    float: left;
+    min-width: 160px;
+    padding: 5px 0;
+    margin: 2px 0 0;
+    list-style: none;
+    font-size: 14px;
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    background-clip: padding-box;
+}
+.tt-suggestion > p {
+    display: block;
+    padding: 3px 20px;
+    clear: both;
+    font-weight: normal;
+    line-height: 1.428571429;
+    color: #333333;
+    white-space: nowrap;
+}
+.tt-suggestion > p:hover,
+.tt-suggestion > p:focus,
+.tt-suggestion.tt-cursor p {
+    color: #ffffff;
+    text-decoration: none;
+    outline: 0;
+    background-color: #428bca;
+}
+/*
+* {
+    margin: 0;
+    padding: 0;
+}
+*/
+
+/*
+button,
+button:focus {
+    outline: none;
+    -webkit-user-select: none;
+}
+*/
+
+/* menu styling */
+
+#footer {
+    width: 350px;
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    text-align: center;
+    top: 2px;
+    border-radius: 5px;
+}
+menu {
+    position: absolute;
+    bottom: 0;
+    margin-left: auto;
+    margin-right: auto;
+}
+body {
+    width: 1280px;
+    background-color: #fff;
+    -webkit-user-select: none;
+    cursor: default;
+    color: #222;
+    font-family: Calibri, Helvetica, Arial, sans-serif;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    overflow: hidden;
+    background-color: #ddd;
+}
+#table1 {
+    width: 440px;
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0px 2px 10px #999;
+    padding: 2px;
+}
+#table1 td {
+    padding: 2px;
+}
+#customers {
+    margin-top: 6px;
+    padding: 2px;
+}
+#billitem {
+    width: 435px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 480px;
+    /*    background-color: #f9f9f9;*/
+    padding: 2px;
+    border: 1px solid #eee;
+    margin-bottom: 5px;
+}
+#totalamount {
+    background-color: transparent;
+    padding-bottom: 9px;
+    /*    padding-right: 60px;*/
+    font-size: 18px;
+    /*    font-weight: 900;*/
+    /*    text-align: right;*/
+}
+#heading {
+    font-size: 18px;
+}
+#itemsTable td {
+    width: 250px;
+}
+/*#home {
+    font-family: impact;
+    text-shadow: 0px 1px 1px #fff;
+    background: #eee;
+    border: outset 1px;
+    height: 700px;
+    text-align: center;
+    color: #222;
+    font-size: 100px;
+    font-weight: 100;
+}*/
+
+#bill {
+    margin: 0em;
+    height: 720px;
+    width: 1024px;
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+}
+@media (max-width: 1280px) {} #inventory {
+    position:relative;
+    width:564px;
+    float:right;
+    padding:1px;
+    /*    padding-left: 7px;*/
+    /*    border-radius: 3px;*/
+    /*    background-color: #eeefff;*/
+    height:720px;
+    /*    border: 1px outset;*/
+    /*    margin-right: 2px;*/
+    display:inherit;
+    /*    margin: 0;*/
+}
+@media (max-width: 1280px) {} #make {
+    /*    border-right: 1px dashed;*/
+    padding:1px;
+    border-radius:3px;
+    /*    background: #eee;*/
+    height:720px;
+    float:left;
+    margin:0;
+    width:460px;
+}
+#products td {
+    border: 1px solid #aaa;
+    width: 100px;
+    height: 60px;
+    background-color: #888aaa;
+    text-shadow: 0px 1px 1px #222;
+    color: #fff;
+    border-radius: 5px;
+    text-align: center;
+}
+#products td:hover {
+    border: 1px solid #aaa;
+    width: 100px;
+    height: 60px;
+    background-color: #666aaa;
+    text-shadow: 0px 1px 1px #222;
+    color: #fff;
+    border-radius: 5px;
+    text-align: center;
+}
+#newitem {
+    border: 1px solid #aaa;
+    width: 100px;
+    height: 60px;
+    background-color: #888aaa;
+    text-shadow: 0px 1px 1px #222;
+    color: #fff;
+    border-radius: 5px;
+    text-align: center;
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+#newitem:hover {
+    border: 1px solid #aaa;
+    width: 100px;
+    height: 60px;
+    background-color: #666aaa;
+    text-shadow: 0px 1px 1px #222;
+    color: #fff;
+    border-radius: 5px;
+    text-align: center;
+}
+.active {
+    display: inline;
+}
+.inactive {
+    display: none;
+}
+.notifbuttons {
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    display: inline-block;
+}
+#qtyinput {
+    box-shadow: inset 0 0 5px #ddd;
+    padding: 7px;
+    font-size: 12px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+}
+#table2 {
+    width: 440px;
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    text-align: center;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0px 2px 10px #999;
+    padding: 2px;
+}
+#billview {
+    width: 490px;
+}
+#billview td {
+    position: relative;
+    margin-right: auto;
+    margin-left: auto;
+    left: 0;
+    right: 0;
+    padding-left: 5px;
+    padding-right: 5px;
+    border: 1px outset;
+    background-color: #ffffff;
+    font-size: 12px;
+    text-align: center;
+    border-radius: 2px;
+}
+#button3 {
+    display: inline-block;
+    color: #222;
+    text-shadow: 0px 1px 1px #fff;
+    width: 54px;
+    margin: 0;
+    background: linear-gradient(#999fff, #666fff);
+    border-radius: 3px;
+    padding: 2px;
+    text-align: center;
+    cursor: default;
+    line-height: 2.5;
+    font-weight: 700;
+    box-shadow: none;
+}
+#button3:hover {
+    display: inline-block;
+    color: #222;
+    text-shadow: 0px 1px 1px #fff;
+    width: 54px;
+    background: linear-gradient(#999fff, #444fff);
+    padding: 2px;
+    text-align: center;
+    cursor: default;
+    line-height: 2.5;
+    font-weight: 700;
+}
+#printapplet {
+    width: 0;
+    height: 0;
+}
+#button4 {
+    color: #ddd;
+    text-shadow: 0px 1px 1px #fff;
+    width: 94px;
+    margin: 0;
+    background-color: #ddd;
+    border-radius: 3px;
+    padding: 2px;
+    text-align: center;
+    cursor: not-allowed;
+    line-height: 2.5;
+    font-weight: 700;
+    box-shadow: inset 0 0 7px #888;
+}
+#money {
+    display: none;
+    padding-left: 5px;
+    padding-right: 0px;
+}
+#button5 {
+    padding: 7px;
+    background: linear-gradient(#cccccc, #999999);
+    border-radius: 3px;
+    border: none;
+    /*    width: 50px;*/
+    text-shadow: 0px 1px 1px #fff;
+    font-weight: 900;
+}
+#button5:hover {
+    padding: 7px;
+    background: linear-gradient(#bbbbbb, #999999);
+    border-radius: 3px;
+    border: none;
+}
+#entriescontainer {
+    overflow-y: hidden;
+}
+#entries thead,
+#entries tbody {
+    width: 545px;
+    display: block;
+}
+#entries tbody {
+    height: 550px;
+    overflow-y: scroll;
+}
+#entries thead {
+    display: block;
+    width: 510px;
+}
+#entries td,
+#entries th {
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+/*Sales Entries*/
+
+#entrya {
+    min-width: 70px;
+    max-width: 70px;
+}
+#entryb {
+    min-width: 60px;
+    max-width: 60px;
+}
+#entryc {
+    min-width: 174px;
+    max-width: 174px;
+}
+#entryd {
+    min-width: 75px;
+    max-width: 75px;
+}
+#entrye {
+    min-width: 60px;
+    max-width: 60px;
+}
+#entryf {
+    min-width: 80px;
+    max-width: 80px;
+}
+/*Inventory Items*/
+
+.inventoryitems .table {
+    overflow-y: hidden;
+}
+.inventoryitems .table thead,
+.inventoryitems .table tbody {
+    width: 525px;
+    display: block;
+}
+.inventoryitems .table tbody {
+    height: 575px;
+    overflow-y: scroll;
+}
+.inventoryitems .table thead {
+    display: block;
+    width: 510px;
+}
+.inventoryitems .table td,
+.inventoryitems .table th {
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+#entryia {
+    min-width: 80px;
+    max-width: 80px;
+}
+#entryib {
+    min-width: 100px;
+    max-width: 100px;
+}
+#entryic {
+    min-width: 70px;
+    max-width: 70px;
+}
+#entryid {
+    min-width: 70px;
+    max-width: 70px;
+}
+#entryie {
+    min-width: 60px;
+    max-width: 60px;
+}
+#entryif {
+    min-width: 50px;
+    max-width: 50px;
+}
+#entryig {
+    min-width: 70px;
+    max-width: 70px;
+}
+/*Bill Items*/
+
+.prinitems .table {
+    overflow-y: hidden;
+}
+.prinitems .table thead,
+.prinitems .table tbody {
+    /*    width: 525px;*/
+    display: block;
+}
+.printitems .table tbody {
+    z-index: 99;
+    /*    height: 275px;*/
+    /*    overflow-y: scroll;*/
+}
+.prinitems .table thead {
+    display: block;
+    /*    width: 510px;*/
+}
+.printitems .table td,
+.printitems .table th {
+    /*    text-align: center;*/
+    z-index: 99;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+#parta,
+#partb {
+    padding: 20px;
+    word-wrap: break-word;
+    width: 300px;
+}
+#contact {
+    box-shadow: inset 0 0 5px #ddd;
+    padding: 7px;
+    font-size: 12px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+}
+#entriescontainer {
+    overflow-x: hidden;
+    width: 550px;
+    height: 600px;
+}
+.inventoryitems {
+    height: 650px;
+    overflow: auto;
+    overflow-x: hidden;
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+}
+#inventorycontent {
+    /*    height: 596px;*/
+    overflow: auto;
+    overflow-x: hidden;
+}
+.notif {
+    width: 100px;
+    height: 100px;
+    background-color: white;
+    opacity: 1;
+}
+.printitems {
+    font-size: 16px;
+}

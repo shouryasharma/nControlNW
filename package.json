@@ -1,0 +1,42 @@
+{
+    "name": "nControl",
+    "description": "Simplified Billing",
+    "version": "0.2",
+    "main": "ui.html",
+    //"nodejs": false,
+    "single-instance": true,
+    "chromium-args": "--disable-databases --disable-flash-3d disable-flash-stage3d --disable-java --disable-local-storage --disable-remote-fonts --disable-session-storage --disable-speech-input --enable-print-preview --disable-xslt --kiosk --kKioskMode --kiosk-printing",
+    "webkit": {
+        "java": true,
+        "plugin": true
+    },
+    //    "snapshot": "snapshot.bin",
+    //    "page-cache": true,
+    "window": {
+        "icon": "16.png",
+        "show": true,
+        "toolbar": false,
+        //        "frame": false,
+        //        "position": "center",
+        //"width": 1350,
+        //"height": 750
+        "kiosk": true
+        //"min_width": 507,
+        //"min_height": 570
+        //"max_width": 507,
+        //"max_height": 570
+    },
+    "always-on-top": true,
+    "maintainers": [{
+        "name": "nemi",
+        "email": "contact@nemi.in",
+        "web": "http://www.nemi.in"
+        }],
+    "contributors": "nemi",
+    "licenses": [
+        {
+            "type": "nemiSoftwareLicense",
+            "url": "http://www.nemi.in/ncontrol/license.html"
+            }
+    ]
+}

@@ -1,0 +1,265 @@
+<!--
+Copyright: Nemi Consultancy Services 2011-14. All rights reserved.
+Copying, distributing, redistributing code or any part of this application without prior written consent is prohibited.
+Please contact us at contact@nemi.in for further information.
+Author(s):
+-->
+
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>nControl</title>
+    <link href="styles/bootstrap.min.css" rel="stylesheet">
+    <link href="styles/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="styles/nControl.css" rel="stylesheet">
+    <style>
+        button:focus {
+            outline: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="bill">
+        <!-- Small modal -->
+        <div style="overflow: hidden;padding:5px;" class="modal fade bs-example-modal-sm" id="mySmallModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div style="padding:10px;" class="modal-content">
+                </div>
+            </div>
+        </div>
+        <!-- Modal -->
+        <div style="overflow: hidden;" class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel"><div class="alert alert-warning" style="width:100px;">Attention</div></h4>
+                    </div>
+                    <div class="modal-body">
+                    </div>
+                    <div class="modal-footer">
+                        <button id="notifclosebutton" type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button id="notifaction" type="button" class="btn btn-primary">Yes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="make" class="control">
+            <div class="panel panel-primary" style="height:720px;">
+                <div style="height:50px;padding:7px;background-color:#eee;border-radius:4px;">
+                    <div class="btn-group" style="position:relative;float:left;">
+                        <div class="btn btn-primary"><b>nControl</b>
+                        </div>
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu" style="text-align:left;">
+                            <li><a onClick="nControl.website();" id="website">Visit website</a>
+                            </li>
+                            <li class="disabled"><a>Help</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li onClick="nControl.about();">
+                                <a>About <b>nControl</b></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="btn-group" style="position:relative;float:right;">
+                        <button style="width:70px;" class="btn btn-warning" onclick="nControl.confirm();" data-toggle="modal" data-target="#myModal">Close</button>
+                        <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown">
+                            <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu" style="text-align:left;">
+                            <li onClick="nControl.appRestart();"><a>Log Off</a>
+                            </li>
+                            <li class="disabled"><a>Change User</a>
+                            </li>
+                            <li onClick="nControl.appRestart();"><a>Restart</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li onClick="nControl.appMinimize();"><a>Minimize</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <table id="itemsTable">
+                        <tr>
+                            <td>
+                                <div id="totalamount" class="totalamount">&nbsp;<span class="totalpedigree">&nbsp;&nbsp;Balance: INR
+                                    <span id="showbalance"></span></span>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    <div id="billitem" style="height:569px;">
+                        <div id="parta"></div>
+                        <div id="partb"></div>
+                        <div id="partc" style="display:none;">
+                            <h3>Inventory Control</h3>
+                            Item Name:
+                            <input class="inventoryitem form-control" type="text" placeholder="Item Name">Price:
+                            <input class="inventoryprice form-control" type="number" placeholder="Price">Stock:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#ddd;">(Leave empty if not applicable)</span>
+                            <input id="example" class="inventoryqty form-control" type="number" placeholder="Stock" data-content="<div class='btn-group' data-toggle='buttons'><label class='btn btn-default'><input type='radio' name='direction' id='qin' value='In'>In</label><label class='btn btn-default'><input type='radio' name='direction' id='qout' value='Out'>Out</label></div><input id='qtypop' style='display:inline;width:90px;' type='number' class='form-control'><button style='display:inline;' class='btn btn-primary' onClick='nControl.qtySet();'>Set</button>">PID/DN:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <span style="color:#ddd;">(Product ID) / DN (Display Number)</span>
+                            <input id="examplepid" data-content="Click on Inventory button below to get an auto generated value for PID/DN." class="inventorynum form-control" type="number" placeholder="PID/DN">Color:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <span style="color:#ddd;">(You can leave this empty)</span>
+                            <input class="inventorycolor form-control" type="text" placeholder="Color" disabled>Category:
+                            <div id="the-basics">
+                                <input id="inventorycategory" class="inventorycategory typeahead form-control" autocomplete="off" type="text" placeholder="Category">
+                            </div>
+                            <br>
+                            <button class="addtoinventory btn btn-default">ADD</button>
+                        </div>
+                    </div>
+                    <div id="footer">
+                        <div class="btn-group">
+                            <div class="sell btn-group dropup">
+                                <button style="width:70px;" type="button" class="btn btn-primary" onclick="nControl.setView(1);">Sell</button>
+                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                    <span class="caret"></span>
+                                    <span class="sr-only">Toggle Dropdown</span>
+                                </button>
+                                <ul class="dropdown-menu pull-right" role="menu" style="text-align:left;">
+                                    <li class="disabled"><a>Inventory</a>
+                                    </li>
+                                    <li class="disabled"><a>User Management</a>
+                                    </li>
+                                    <li class="disabled"><a>Settings</a>
+                                    </li>
+                                    <li class="divider"></li>
+                                    <li onClick="nControl.setView(0);"><a>Control</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div style="width:90px;" class="controlinventory btn btn-default" onclick="nControl.setView(2);">Inventory</div>
+                            <div style="width:90px;" class="btn btn-default disabled">Settings</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--        make bill-->
+        <div id="make" class="bill">
+            <div class="panel panel-primary" style="height:720px;">
+                <div style="height:50px;padding:7px;background-color:#eee;border-radius:4px;">
+                    <div class="btn-group" style="position:relative;float:left;">
+                        <div class="btn btn-primary"><b>nControl</b>
+                        </div>
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu" style="text-align:left;">
+                            <li><a onClick="nControl.website();" id="website">Visit website</a>
+                            </li>
+                            <li class="disabled"><a>Help</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li onClick="nControl.about();">
+                                <a>About <b>nControl</b></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="btn-group" style="position:relative;float:right;">
+                        <button style="width:70px;" class="btn btn-warning" onclick="nControl.confirm();" data-toggle="modal" data-target="#myModal">Close</button>
+                        <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown">
+                            <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu" style="text-align:left;">
+                            <li onClick="nControl.appRestart();"><a>Log Off</a>
+                            </li>
+                            <li class="disabled"><a>Change User</a>
+                            </li>
+                            <li onClick="nControl.appRestart();"><a>Restart</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li onClick="nControl.appMinimize();"><a>Minimize</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div id="heading">&nbsp;&nbsp;Customer Details</div>
+                    <div id="customers">
+                        <input type="text" class="cname form-control" style="width:250px;display:inline;" placeholder="Name">
+                        <input class="ccontact form-control" style="width:150px;display:inline;" type="text" placeholder="Contact">
+                    </div>
+                    <br>
+                    <table id="itemsTable">
+                        <tr>
+                            <td>
+                                <div id="totalamount" class="totalbill">&nbsp;&nbsp;Total: INR <span class="total"></span>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="printitems" id="billitem">
+                        <table class="table table-striped table-hover table-condensed">
+                        </table>
+                    </div>
+                    <div id="footer">
+                        <div class="btn-group">
+                            <button style="width:90px;" class="control btn btn-primary" onclick="nControl.setView(0);">Control</button>
+                            <button style="width:90px;" class="btn btn-default" onclick="nControl.reset();">Clear</button>
+                            <button style="width:94px;" style="width:94px;" class="rescue btn btn-default" onclick="nControl.pay();">Pay</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="inventory">
+            <div class="panel panel-primary" style="height:720px;">
+                <div class="panel-heading" style="height:40px;">
+                    <h3 style="position:relative;float:left;" class="panel-title a">Products</h3>
+                    <h3 style="font-family:impact;font-weight:100;color:#fff;position:relative;float:right;" class="panel-title">&copy;&nbsp;nemi</h1>
+                </div>
+                <div id="inventorycontent" class="panel-body">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" id="cattabs">
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content" id="catpanes">
+                    </div>
+                </div>
+                <div id="money" class="panel-body">
+                    <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-default">
+                            <input type="radio" name="direction" id="in" value="In">In
+                        </label>
+                        <label class="btn btn-default">
+                            <input type="radio" name="direction" id="out" value="Out">Out
+                        </label>
+                    </div>
+                    <input class="details form-control" style="width:250px;display:inline;" type="text" placeholder="Details">
+                    <input class="amount form-control" style="width:90px;display:inline;" type="number" placeholder="Amount" min='0'>
+                    <div class="btn-group">
+                        <button class="execute btn btn-default">Add</button>
+                        <button class="filter btn btn-info">Search</button>
+                    </div>
+                    <br>
+                    <br>
+                    <div id="entriescontainer">
+                        <table id="entries" class='table table-hover table-condensed'></table>
+                    </div>
+                </div>
+                <div id="inventorymanager" class="panel-body">
+                    <div class="inventoryitems">
+                        <table class="table table-striped table-hover table-condensed"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--        <applet code="PrintApplet.class" name="PrintApplet" width="0" height="0"></applet>-->
+    </div>
+<!--    libraries-->
+    <script src="libs/jquery.min.js"></script>
+    <script src="libs/bootstrap.min.js"></script>
+    <script src="libs/TweenMax.js"></script>
+    <script src="libs/jquery.gsap.js"></script>
+    <script src="libs/typeahead.jquery.min.js"></script>
+    <script src="scripts/controls.js"></script>
+</body>
+</html>
