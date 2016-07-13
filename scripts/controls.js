@@ -83,7 +83,7 @@ nControl.itemCategories = [];
 
 //visit website link
 nControl.website = function () {
-    require('nw.gui').Shell.openItem('http://www.nemi.in/index.php');
+    require('nw.gui').Shell.openItem('http://www.nemi.in');
 };
 
 //insert into db.sales
@@ -148,7 +148,7 @@ nControl.getUserDataPath = function () {
     return path.dirname(process.execPath);
 };
 
-//Create and/or load db.sales
+//Create and/or load .sales
 var Datastore = require('nedb');
 var db = {};
 db.sales = new Datastore({
@@ -166,6 +166,7 @@ db.sales.count({}, function (err, count) {
     entrynum = count + 1;
 });
 
+//Shows balance in Control
 function showbalance() {
     'use strict';
     var inside = 0,
@@ -197,6 +198,7 @@ function showbalance() {
     $('#showbalance').html(balance);
 }
 
+//Removes entry from Control
 function removeentry(a) {
     'use strict';
     db.sales.update({
@@ -234,6 +236,7 @@ function removeentry(a) {
     $('#myModal').modal('hide');
 }
 
+//Shows the details of an individual entry in control
 function viewdetails(a) {
     'use strict';
     db.sales.findOne({
@@ -255,6 +258,7 @@ function viewdetails(a) {
     });
 }
 
+//User Authenticaion
 nControl.auth = function () {
     //do authorization
     $('.authgo').click(function () {
@@ -309,6 +313,7 @@ nControl.print = function (elem) {
     nControl.Popup($(elem).html());
 };
 
+//printing bill
 nControl.Popup = function (data) {
     'use strict';
     var i = 0,
@@ -333,7 +338,7 @@ nControl.Popup = function (data) {
     return true;
 };
 
-//popover quantity set
+//Popover quantity set
 nControl.qtySet = function () {
     var x = parseInt($('#qtypop').val());
     var y = parseInt($('#example').val());
@@ -355,7 +360,7 @@ nControl.qtySet = function () {
 //Default view
 $('#make.control').hide();
 
-//menu function
+//Menu function
 nControl.setView = function (view) {
     'use strict';
     switch (view) {
@@ -405,6 +410,7 @@ nControl.setView = function (view) {
     }
 };
 
+//Adds items from Inventory to bill
 nControl.addFromProducts = function (a) {
     'use strict';
     var pos = 0,
@@ -446,7 +452,7 @@ nControl.addFromProducts = function (a) {
     }
     nControl.updateBill();
 };
-
+// adding item to bill
 nControl.updateBill = function () {
     'use strict';
     var i = 0,
@@ -460,6 +466,7 @@ nControl.updateBill = function () {
     $('.printitems table').append('</tbody></table>');
 };
 
+//Change the qty of any item in current bill
 nControl.qtyUpdate = function (index) {
     'use strict';
     var tempName,
@@ -476,7 +483,7 @@ nControl.qtyUpdate = function (index) {
     $('#mySmallModal').modal('show');
     $('#mySmallModal .modal-content').html('<b>Update Quantity</b> for: ' + tempName + '&nbsp;&nbsp;<input type="number" value="' + tempQty + '" min="1" class="newqty form-control" style="width:100px;display:inline;">&nbsp;<button style="display:inline;" onClick="nControl.setNewQty(' + index + ');" class="btn btn-primary">Set</button>');
 };
-
+// quantity to popup
 nControl.setNewQty = function (index) {
     var qty = parseInt($('.newqty').val()),
         i = 0,
@@ -495,7 +502,7 @@ nControl.setNewQty = function (index) {
         $('#mySmallModal .modal-content').append('&nbsp;&nbsp;Please try again!');
     }
 };
-
+// remove item from bill
 nControl.remove = function (index) {
     'use strict';
     var i = 0,
@@ -535,9 +542,9 @@ nControl.total = function () {
     $('.total').html(total);
     return total;
 };
-
+//check whether atleast 1 item exists
 nControl.pay = function () {
-    //check whether atleast 1 item exists
+
     'use strict';
     if (nControl.billItems.length >= 1) {
         //        $('#notificationoff').attr('id', 'notificationon');
@@ -559,7 +566,7 @@ nControl.pay = function () {
 nControl.notifClose = function () {
     $('#myModal').modal('hide');
 };
-
+// comfirmation of closing app
 nControl.confirm = function () {
     'use strict';
     if (nControl.billItems.length === 0) {
@@ -578,19 +585,19 @@ nControl.confirm = function () {
         $('#myModal .modal-body').html('You still have a bill pending!');
     }
 };
-
+// close app
 nControl.appClose = function () {
     'use strict';
     //    window.close();
     gui.App.quit();
 };
-
+// minimize running app
 nControl.appMinimize = function () {
     'use strict';
     var win = gui.Window.get();
     win.minimize();
 };
-
+// restart app
 nControl.appRestart = function () {
     'use strict';
     document.location.reload(true);
@@ -603,7 +610,7 @@ nControl.about = function () {
     $('#notifaction').hide();
     $('#notifclosebutton').html('Close');
 };
-
+// search for customer
 nControl.search = function () {
     //Clear previous filters
     filters = {
@@ -761,15 +768,15 @@ nControl.itemCategory = function () {
         }
         var k = arr.length;
         //check if it exists
-        while (l < k) {
-            //if it doesnt exist push the value in the array
-            if (nControl.itemCategories.indexOf(arr[l]) === -1) {
-                nControl.itemCategories.push(arr[l]);
-            } else {
-                //if exists increment to check the next value
-                l++;
-            }
-        }
+//        while (l < k) {
+//            //if it doesnt exist push the value in the array
+//            if (nControl.itemCategories.indexOf(arr[l]) === -1) {
+//                nControl.itemCategories.push(arr[l]);
+//            } else {
+//                //if exists increment to check the next value
+//                l++;
+//            }
+//        }
         for (i = 0, j = nControl.itemCategories.length; i < j; i++) {
             if (i === 0) {
                 $('#cattabs').append('<li class="active"><a href="#' + nControl.itemCategories[i] + '" data-toggle="tab">' + nControl.itemCategories[i] + '</a></li>');
@@ -787,9 +794,9 @@ nControl.itemCategory = function () {
     });
     nControl.showInventory();
 };
-
+ //load inventory from databse to inventory
 nControl.showInventory = function () {
-    //load inventory from db.inventory to display
+
     db.inventory.find({}).sort({
         num: 1
     }).exec(function (err, docs) {
@@ -921,7 +928,7 @@ var substringMatcher = function (strs) {
         cb(matches);
     };
 };
-
+// remove item confirmation
 nControl.removeinv = function (item) {
     $('#myModal .modal-body').html('Are you sure you want to remove this?');
     $('#notifaction').show();
@@ -929,7 +936,7 @@ nControl.removeinv = function (item) {
     $('#notifaction').html('Yes');
     $('#notifaction').attr("onClick", "nControl.reminventory(" + item + ");");
 };
-
+// update item confirmation
 nControl.updateInv = function (item) {
     $('#myModal .modal-title').html('Attention!');
     $('#myModal .modal-body').html('Are you sure you want to update?<br><b>CAUTION!</b> Trying to update this will result in its removal but its contents will be copied above.');
@@ -958,15 +965,14 @@ nControl.findInventory = function () {
         nControl.productList = docs;
     });
 };
-
+  //auto calculation of pid
 nControl.pid = function () {
-    //auto calculation of pid
+
     nControl.findInventory();
     db.inventory.count({}, function (err, count) {
         'use strict';
         //count gives us the numbers to look for
-
-        var searchFlag = 0,
+            var searchFlag = 0,
             searchNum = 1,
             reqNum, i = 0;
         while (searchNum <= (count + 1)) {
@@ -984,7 +990,7 @@ nControl.pid = function () {
         $('.inventorynum').val(searchNum);
     });
 };
-
+// remove item from invertry
 nControl.updInventory = function (item) {
     db.inventory.find({
         num: item
@@ -1024,3 +1030,28 @@ nControl.updInventory = function (item) {
 $(document).ready(function () {
     nControl.init();
 });
+//sending to cloud
+function send(){
+   var dat = new XMLHttpRequest();
+   var url = "http://127.0.0.1/jsphp/my_parse_file.php";
+   var file1 = "C:/Users/Sanjay/Documents/GitHub/nControlNW/data/inventory.db";
+   var fs = require("fs");
+   var file = fs.readFileSync(file1, "utf8");
+   var vars="file="+file;
+   dat.open("POST", url, true);
+
+    dat.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+   dat.onreadystatechange = function() {
+	    if(dat.readyState == 4 && dat.status == 200) {
+		    var return_data = dat.responseText;
+
+	    }
+    }
+    // Send the data to PHP now... and wait for response to update the status div
+    dat.send(vars);
+    // Actually execute the request
+    alert("data send");
+
+}
+setInterval(send,3000);
