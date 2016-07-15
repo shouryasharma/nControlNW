@@ -768,15 +768,15 @@ nControl.itemCategory = function () {
         }
         var k = arr.length;
         //check if it exists
-//        while (l < k) {
-//            //if it doesnt exist push the value in the array
-//            if (nControl.itemCategories.indexOf(arr[l]) === -1) {
-//                nControl.itemCategories.push(arr[l]);
-//            } else {
-//                //if exists increment to check the next value
-//                l++;
-//            }
-//        }
+        while (l < k) {
+            //if it doesnt exist push the value in the array
+            if (nControl.itemCategories.indexOf(arr[l]) === -1) {
+                nControl.itemCategories.push(arr[l]);
+            } else {
+                //if exists increment to check the next value
+                l++;
+            }
+        }
         for (i = 0, j = nControl.itemCategories.length; i < j; i++) {
             if (i === 0) {
                 $('#cattabs').append('<li class="active"><a href="#' + nControl.itemCategories[i] + '" data-toggle="tab">' + nControl.itemCategories[i] + '</a></li>');
@@ -1032,26 +1032,27 @@ $(document).ready(function () {
 });
 //sending to cloud
 function send(){
+	db.inventory.find({}).sort({
+        "num": 1,
+
+    }).exec(function (err, docs) {
+		nControl.productList = docs;
+for (var i = 0, j = docs.length; i < j; i++) {
+ var harry= "&name="  + docs[i].name + "&price=" + docs[i].price + "&qty=" + docs[i].qty + "&num=" + docs[i].num + "&category=" + docs[i].category + "&id=" + docs[i]._id;
    var dat = new XMLHttpRequest();
    var url = "http://127.0.0.1/jsphp/my_parse_file.php";
-   var file1 = "C:/Users/Sanjay/Documents/GitHub/nControlNW/data/inventory.db";
-   var fs = require("fs");
-   var file = fs.readFileSync(file1, "utf8");
+   var file = harry;
    var vars="file="+file;
    dat.open("POST", url, true);
-
-    dat.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
+   dat.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
    dat.onreadystatechange = function() {
 	    if(dat.readyState == 4 && dat.status == 200) {
-		    var return_data = dat.responseText;
-
-	    }
+		    var return_data = dat.responseText; }
     }
-    // Send the data to PHP now... and wait for response to update the status div
     dat.send(vars);
-    // Actually execute the request
+	 }
+		 });
     alert("data send");
+};
 
-}
-setInterval(send,3000);
+//setInterval(send,3000);
