@@ -263,7 +263,7 @@ nControl.auth = function () {
     //do authorization
     $('.authgo').click(function () {
         var authpass = $('.authpass').val();
-        if (authpass === 'test') {
+        if (authpass === '') {
             authset = true;
         }
         if (authset) {
@@ -1030,8 +1030,18 @@ nControl.updInventory = function (item) {
 $(document).ready(function () {
     nControl.init();
 });
+// checking internet connectivity
+function checkInternet() {
+require('dns').resolve('nemi.in', function(err) {
+  if (err) {
+     toastr.info('NO CONNECTION');
+  } else {
+     toastr.info('CONNECTED');
+  }
+});}
 //sending to cloud
 function send(){
+	checkInternet();
 	db.inventory.find({}).sort({
         "num": 1,
  }).exec(function (err, docs) {
@@ -1072,11 +1082,14 @@ for (var i = 0, j = docs.length; i < j; i++) {
   "hideMethod": "fadeOut"
 
 }
-	toastr["success"]("", "data sync");
-
 	del();
 
+	toastr["success"](" ", msg);
+	if(msg=="testing"){msg="you need to connect to internet"}
+
+	else {msg="you need to connect to internet"};
 };
+var msg="testing";
 function del(){
 	var dat = new XMLHttpRequest();
    var url = "http://127.0.0.1/jsphp/delete.php";
@@ -1084,10 +1097,11 @@ function del(){
    dat.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
    dat.onreadystatechange = function() {
 	    if(dat.readyState == 4 && dat.status == 200) {
-		    var return_data = dat.responseText; }
+		    var return_data = dat.responseText;
+	    msg=return_data.substring(0,15);}
     }
     dat.send(vars);
-
-
 }
 setInterval(send,3000);
+
+

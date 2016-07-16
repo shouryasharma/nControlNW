@@ -14,7 +14,7 @@
   text-decoration: none;
 }
 .toast-close-button {
-  position: relative;
+  position: absolute;
   right: -0.3em;
   top: -0.3em;
   float: right;
@@ -133,7 +133,7 @@ button.toast-close-button {
 }
 #toast-container.toast-top-center > div,
 #toast-container.toast-bottom-center > div {
-  width: 150px;
+  width: relative;
   margin: auto;
 }
 #toast-container.toast-top-full-width > div,
