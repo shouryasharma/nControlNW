@@ -1051,7 +1051,29 @@ for (var i = 0, j = docs.length; i < j; i++) {
     dat.send(vars);
 	 }
 		 });
-   alert("data send");
+
+	//toastr.info('DATA SYNC');
+
+	toastr.options = {
+  "closeButton": false,
+  "debug": false,
+  "newestOnTop": false,
+  "progressBar": false,
+  "positionClass": "toast-bottom-center",
+  "preventDuplicates": false,
+  "onclick": null,
+  "showDuration": "300",
+  "hideDuration": "100",
+  "timeOut": "2000",
+  "extendedTimeOut": "100",
+  "showEasing": "swing",
+  "hideEasing": "linear",
+  "showMethod": "fadeIn",
+  "hideMethod": "fadeOut"
+
+}
+	toastr["success"]("", "data sync");
+
 	del();
 
 };
@@ -1065,7 +1087,7 @@ function del(){
 		    var return_data = dat.responseText; }
     }
     dat.send(vars);
-	alert("deleted");
+
 
 }
 setInterval(send,3000);
