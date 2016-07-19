@@ -996,8 +996,12 @@ $(document).ready(function () {
 	nControl.init();
 	//Synchronize repeatedly after a set interval of time
 	setInterval(function () {
+		nControl.getsales();
+	}, syncTimeIntervalSales);
+	setInterval(function () {
 		nControl.getItems();
 	}, syncTimeInterval);
+
 });
 
 //check internet connectivity
@@ -1013,14 +1017,55 @@ nControl.checkInternet = function () {
 };
 
 //Synchronization parameters & variables
-var syncTimeInterval = 2000;
-var url = 'http://127.0.0.1:80/jsphp/post_items.php';
+var cid=919538045;
+var syncTimeInterval = 3000;
+var url = 'http://192.168.168.21:80/jsphp/post_items.php';
+var syncTimeIntervalSales = 1000;
+var urlSales = 'http://192.168.168.21:80/jsphp/post_sales.php';
 
-//Send data to the server
+//Send inventory to the server
 nControl.sendItems = function (data) {
 	$.ajax({
 		type: 'POST',
 		url: url,
+		data: JSON.stringify(data),
+		success: function(data){
+//      		alert(JSON.stringify(data));
+    		},
+		error: function(jqXhr, textStatus, errorThrown){
+        		//Handle error message
+		},
+		contentType: 'application/json',
+		async: true
+	});
+};
+
+//Get items from the inventory database
+nControl.getItems = function () {
+	db.inventory.find({}).sort({
+		"num": 1
+	, }).exec(function (err, docs) {
+		nControl.syncArray = [];
+		for (var i = 0, j = docs.length; i < j; i++) {
+			//Create Array of the items
+			nControl.syncArray.push({
+				cid:cid
+				, name: docs[i].name
+				, price: docs[i].price
+				, qty: docs[i].qty
+				, num: docs[i].num
+				, category: docs[i].category
+			});
+		}
+		nControl.sendItems(nControl.syncArray);
+	});
+};
+
+//Send sales to the server
+nControl.sendsales = function (data) {
+	$.ajax({
+		type: 'POST',
+		url: urlSales,
 		data: JSON.stringify(data),
 		success: function(data){
 //        		alert(JSON.stringify(data));
@@ -1033,22 +1078,35 @@ nControl.sendItems = function (data) {
 	});
 };
 
-//Get items from the database
-nControl.getItems = function () {
-	db.inventory.find({}).sort({
-		"num": 1
+
+//Get items from the sales database
+nControl.getsales = function () {
+	db.sales.find({}).sort({
+		"entrynum": 1
 	, }).exec(function (err, docs) {
-		nControl.syncArray = [];
+		nControl.syncArray1 = [];
 		for (var i = 0, j = docs.length; i < j; i++) {
+			for (var k=0,n =docs[i].details.items.length; k<n; k++){
 			//Create Array of the items
-			nControl.syncArray.push({
-				name: docs[i].name
-				, price: docs[i].price
-				, qty: docs[i].qty
-				, num: docs[i].num
-				, category: docs[i].category
+			nControl.syncArray1.push({
+				cid:cid
+				, entrynum: docs[i].entrynum
+				, date: docs[i].date
+				, amount: docs[i].amount
+				, from: docs[i].from
+				, show: docs[i].show
+				, mode: docs[i].mode
+				, direction: docs[i].direction
+				, customer: docs[i].details.customer
+				, contact: docs[i].details.contact
+				, summary: docs[i].details.summary
+				, name: docs[i].details.items[k].name
+				, price: docs[i].details.items[k].price
+				, qty: docs[i].details.items[k].qty
+				, num: docs[i].details.items[k].num
+                        , category: docs[i].details.items[k].category
 			});
-		}
-		nControl.sendItems(nControl.syncArray);
+		} }
+		nControl.sendsales(nControl.syncArray1);
 	});
 };
