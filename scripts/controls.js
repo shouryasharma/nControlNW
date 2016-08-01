@@ -1,14 +1,14 @@
-var nControl = {}
-	, details = {}
-	, gui = require('nw.gui')
-	, win = gui.Window.get()
-	, amount = 0
-	, from = 'control'
-	, direction, docs, stock = 0
-	, authset = false
-	, appendtable = "<thead><tr><th id='entrya'>Action</th><th id='entryb'>TRN-ID</th><th id='entryc'>Date</th><th id='entryd'>Details</th><th id='entrye'><span style='color:blue'>In</span><span style='color:#999'>/</span><span style='color:red'><b>Out</b></span></th><th id='entryf'>Amount</th></thead>"
-	, entrynum, flag = 0
-	, appendinv = "<thead><tr><th id='entryia'>Action</th><th id='entryib'>Name</th><th id='entryic'>Price</th><th id='entryid'>Qty</th><th id='entryie'>PID/DN</th><th id='entryif'>Color</th><th id='entryig'>Category</th></thead>";
+var nControl = {},
+    details = {},
+    gui = require('nw.gui'),
+    win = gui.Window.get(),
+    amount = 0,
+    from = 'control',
+    direction, docs, stock = 0,
+    authset = false,
+    appendtable = "<thead><tr><th id='entrya'>Action</th><th id='entryb'>TRN-ID</th><th id='entryh'>BILL</th><th id='entryc'>Date</th><th id='entryd'>Details</th><th id='entrye'><span style='color:blue'>In</span><span style='color:#999'>/</span><span style='color:red'><b>Out</b></span></th><th id='entryf'>Amount</th></thead>",
+    entrynum,nbillno, flag = 0,
+    appendinv = "<thead><tr><th id='entryia'>Action</th><th id='entryib'>Name</th><th id='entryic'>Price</th><th id='entryid'>Qty</th><th id='entryie'>PID/DN</th><th id='entryif'>Color</th><th id='entryig'>Category</th></thead>";
 nControl.init = function () {
 	var n = nControl;
 	n.presets();
@@ -37,27 +37,27 @@ nControl.presets = function () {
 	$('#nmsg').hide();
 	//Popover(s)
 	$('#example').popover({
-		html: true
-		, title: '<b>Note:</b> This will not work if there is no present qty. Click the Stock input box again to make this disappear.'
+		html: true,
+		title: '<b>Note:</b> This will not work if there is no present qty. Click the Stock input box again to make this disappear.'
 	});
 	$('#examplepid').popover({
-		html: true
-		, title: '<b>Tip</b>'
-		, trigger: 'hover'
+		html: true,
+		title: '<b>Tip</b>',
+		trigger: 'hover'
 	});
 	$('#entryc').popover({
-		title: '<b>Date</b>'
-		, trigger: 'click'
+		title: '<b>Date</b>',
+		trigger: 'click'
 	});
 	//Typehead(s)
 	$('#the-basics .typeahead').typeahead({
-		hint: true
-		, highlight: true
-		, minLength: 1
+		hint: true,
+		highlight: true,
+		minLength: 1
 	}, {
-		name: 'states'
-		, displayKey: 'value'
-		, source: substringMatcher(nControl.itemCategories)
+		name: 'states',
+		displayKey: 'value',
+		source: substringMatcher(nControl.itemCategories)
 	});
 	//Search Filters Modal
 	$('.filter').click(function () {
@@ -74,12 +74,14 @@ nControl.billItems = [];
 nControl.itemCategories = [];
 //visit website link
 nControl.website = function () {
+	'use strict'
 	require('nw.gui').Shell.openItem('http://www.nemi.in');
 };
 //insert into db.sales
 $('.execute').click(function () {
 	'use strict';
 	//Get entry data from user
+	billno();
 	window.details.summary = $('.details').val();
 	window.amount = $('.amount').val();
 	//count total entries in db.sales after user clicks on given button
@@ -87,28 +89,28 @@ $('.execute').click(function () {
 	if ($('#in').is(':checked') || $('#out').is(':checked')) {
 		if ($('#in').is(':checked')) {
 			direction = 'In';
-		}
-		else {
+		} else {
 			direction = 'Out';
 		}
 		db.sales.count({}, function (err, count) {
 			window.entrynum = count + 1;
 		}, db.sales.insert({
-			entrynum: entrynum
-			, date: Date()
-			, details: details
-			, amount: amount
-			, from: 'manual'
-			, direction: direction
-			, show: true
+			entrynum: entrynum,
+			date: Date(),
+			date1: Date().substr(4, 12),
+			billno: nbillno,
+			details: details,
+			amount: amount,
+			from: 'manual',
+			direction: direction,
+			show: true
 		}));
 		//load entries from db.sales after user clicks on given button
 		db.sales.find({}).sort({
 			entrynum: -1
 		}).exec(function (err, docs) {
 			window.docs = docs;
-			var x, i = 0
-				, j = docs.length;
+			var x, i = 0, j = docs.length;
 			$('#entries').html('');
 			$('.amount').val('');
 			$('.details').val('');
@@ -116,11 +118,10 @@ $('.execute').click(function () {
 			for (i = 0; i < j; i++) {
 				if (docs[i].show === false) {
 					x = 'none';
-				}
-				else {
+				} else {
 					x = 'inline';
 				}
-				$("#entries").append("<tr style=\"display:" + x + "\"><td id=\"entrya\"><div class='btn-group'><button class='btn btn-xs btn-danger' onclick=\"nControl.confirmrementry(" + docs[i].entrynum + ");\">x</button>&nbsp;<button class='btn btn-xs btn-info' onclick=\"viewdetails(" + docs[i].entrynum + ");\" class='actionview'>View</button></div></td>" + "<td id='entryb'>" + docs[i].entrynum + "</td>" + "<td id='entryc' data-content=" + docs[i].date + ">" + docs[i].date + "</td>" + "<td id='entryd'>" + docs[i].details.summary + "</td>" + "<td id='entrye' class='direction'>" + docs[i].direction + "</td>" + "<td id='entryf'>" + docs[i].amount + "</td></tr>");
+				$("#entries").append("<tr style=\"display:" + x + "\"><td id=\"entrya\"><div class='btn-group'><button class='btn btn-xs btn-danger' onclick=\"nControl.confirmrementry(" + docs[i].entrynum + ");\">x</button>&nbsp;<button class='btn btn-xs btn-info' onclick=\"viewdetails(" + docs[i].entrynum + ");\" class='actionview'>View</button></div></td>" + "<td id='entryb'>" + docs[i].entrynum + "</td>" +"<td id='entryh'>" + docs.billno + "</td>"+ "<td id='entryc' data-content=" + docs[i].date + ">" + docs[i].date + "</td>" + "<td id='entryd'>" + docs[i].details.summary + "</td>" + "<td id='entrye' class='direction'>" + docs[i].direction + "</td>" + "<td id='entryf'>" + docs[i].amount + "</td></tr>");
 			}
 			$("entries").append("<tbody></table>");
 			showbalance();
@@ -139,6 +140,8 @@ nControl.getUserDataPath = function () {
 	return path.dirname(process.execPath);
 };
 //Create and/or load .sales
+//var sha1 = require('sha1');
+//alert(sha1("message"));
 var Datastore = require('nedb');
 var db = {};
 db.sales = new Datastore({
@@ -149,6 +152,13 @@ db.inventory = new Datastore({
 	filename: nControl.getUserDataPath() + '/data/inventory.db'
 	, autoload: true
 });
+//var billno
+db.sales.count({date1 : Date().substr(4, 12)}, function(err, cou){
+	'use strict';
+	nbillno = cou + 1;
+//	alert(cou);
+//	alert("it is in var" + nbillno);
+});
 //var entrynum;
 db.sales.count({}, function (err, count) {
 	'use strict';
@@ -157,9 +167,9 @@ db.sales.count({}, function (err, count) {
 //Shows balance in Control
 function showbalance() {
 	'use strict';
-	var inside = 0
-		, outside = 0
-		, balance = 0;
+	var inside = 0,
+	    outside = 0,
+	    balance = 0;
 	$('.direction').each(function () {
 		//check if visible
 		if ($(this).parent().css('display') === 'inline') {
@@ -215,7 +225,7 @@ function removeentry(a) {
 				else {
 					x = 'inline';
 				}
-				$("#entries").append("<tr style=\"display:" + x + "\"><td id=\"entrya\"><div class='btn-group'><button class='btn btn-xs btn-danger' onclick=\"nControl.confirmrementry(" + docs[i].entrynum + ");\">x</button>&nbsp;<button class='btn btn-xs btn-info' onclick=\"viewdetails(" + docs[i].entrynum + ");\" class='actionview'>View</button></div></td>" + "<td id='entryb'>" + docs[i].entrynum + "</td>" + "<td id='entryc' data-content='" + docs[i].date + "' >" + docs[i].date + "</td>" + "<td id='entryd'>" + docs[i].details.summary + "</td>" + "<td id='entrye' class='direction'>" + docs[i].direction + "</td>" + "<td id='entryf'>" + docs[i].amount + "</td></tr>");
+				$("#entries").append("<tr style=\"display:" + x + "\"><td id=\"entrya\"><div class='btn-group'><button class='btn btn-xs btn-danger' onclick=\"nControl.confirmrementry(" + docs[i].entrynum + ");\">x</button>&nbsp;<button class='btn btn-xs btn-info' onclick=\"viewdetails(" + docs[i].entrynum + ");\" class='actionview'>View</button></div></td>" + "<td id='entryb'>" + docs[i].entrynum + "</td>"+"<td id='entryh'>"+docs[i].billno+"</td>" + "<td id='entryc' data-content='" + docs[i].date + "' >" + docs[i].date + "</td>" + "<td id='entryd'>" + docs[i].details.summary + "</td>" + "<td id='entrye' class='direction'>" + docs[i].direction + "</td>" + "<td id='entryf'>" + docs[i].amount + "</td></tr>");
 			}
 			$("entries").append("<tbody></table>");
 			showbalance();
@@ -231,7 +241,7 @@ function viewdetails(a) {
 	}, function (err, docs) {
 		//check whether doc is from pos or not
 		if (docs.from === 'pos') {
-			$("#parta").html("<b>Entry Number:</b> " + a + "<br><b>Date/Time:</b> " + docs.date + "<br><b>Entry Type:</b> " + docs.from + "<br><b>Mode:</b> " + docs.mode + "<br><b>Direction:</b> " + docs.direction + "<br><b>Amount:</b> " + docs.amount + "<br><b>Details:</b> " + docs.details.summary + "<br><br><b>Customer:</b> " + docs.details.customer + "<br><b>Contact Number:</b> " + docs.details.contact);
+			$("#parta").html("<b>Bill No.:</b>"+ docs.billno +"<br><b>Entry Number:</b> " + a + "<br><b>Date/Time:</b> " + docs.date + "<br><b>Entry Type:</b> " + docs.from + "<br><b>Mode:</b> " + docs.mode + "<br><b>Direction:</b> " + docs.direction + "<br><b>Amount:</b> " + docs.amount + "<br><b>Details:</b> " + docs.details.summary + "<br><br><b>Customer:</b> " + docs.details.customer + "<br><b>Contact Number:</b> " + docs.details.contact);
 			$("#partb").html("");
 			var i = 0
 				, j = Object.keys(docs.details.items).length;
@@ -346,50 +356,52 @@ $('#make.control').hide();
 nControl.setView = function (view) {
 	'use strict';
 	switch (view) {
-	case 0:
-		$('#billitem').css("overflow-y", "scroll");
-		$('#billitem').css("border", "1px solid #eee");
-		$('#inventorymanager').hide();
-		$('#inventorycontent').hide();
-		$('#make.bill').hide();
-		$('#money').fadeIn();
-		$('#make.control').show();
-		$('#inventory .panel-title.a').html('Control');
-		$('#partc').hide();
-		$('#parta').show();
-		$('#parta').html('');
-		$('#partb').show();
-		$('#partb').html('');
-		break;
-	case 1:
-		$('#money').hide();
-		$('#make.control').hide();
-		$('#inventorymanager').hide();
-		$('#make.bill').show();
-		$('#inventorycontent').fadeIn();
-		$('#inventory .panel-title.a').html('Sell');
-		break;
-	case 2:
-		if (nControl.billItems.length === 0) {
-			nControl.pid();
-			$('#billitem').css("overflow-y", "hidden");
-			$('#billitem').css("border", "hidden");
-			$('#money').hide();
-			$('#parta').hide();
-			$('#partb').hide();
-			$('#inventorymanager').fadeIn();
-			$('#partc').show();
-			$('#inventory .panel-title.a').html('Inventory');
+		case 0:
+			$('#billitem').css("overflow-y", "scroll");
+			$('#billitem').css("border", "1px solid #eee");
+			$('#inventorymanager').hide();
+			$('#inventorycontent').hide();
+			$('#make.bill').hide();
+			$('#money').fadeIn();
+			$('#make.control').show();
+			$('#inventory .panel-title.a').html('Control');
+			$('#partc').hide();
+			$('#parta').show();
+			$('#parta').html('');
+			$('#partb').show();
+			$('#partb').html('');
 			break;
-		}
-		else {
-			nControl.setView(1);
-			$('#myModal').modal('show');
-			$('#notifaction').hide();
-			$('#notifclosebutton').html('Close');
-			$('#myModal .modal-title').html('Attention!');
-			$('#myModal .modal-body').html('You cannot modify inventory while you have a bill pending!');
-		}
+		case 1:
+			$('#money').hide();
+			$('#make.control').hide();
+			$('#inventorymanager').hide();
+			$('#make.bill').show();
+			$('#inventorycontent').fadeIn();
+			$('#inventory .panel-title.a').html('Sell');
+			break;
+		case 2:
+			if (nControl.billItems.length === 0) {
+				nControl.pid();
+				$('#billitem').css("overflow-y", "hidden");
+				$('#billitem').css("border", "hidden");
+				$('#money').hide();
+				$('#parta').hide();
+				$('#partb').hide();
+				$('#inventorymanager').fadeIn();
+				$('#partc').show();
+				$('#inventory .panel-title.a').html('Inventory');
+				break;
+			} else {
+				nControl.setView(1);
+				$('#myModal').modal('show');
+				$('#notifaction').hide();
+				$('#notifclosebutton').html('Close');
+				$('#myModal .modal-title').html('Attention!');
+				$('#myModal .modal-body').html('You cannot modify inventory while you have a bill pending!');
+			}
+		case 3:
+			$('#Settings').show();
+			break;
 	}
 };
 //Adds items from Inventory to bill
@@ -632,10 +644,20 @@ nControl.search = function () {
 	nControl.loadEntries(filters);
 	nControl.notifClose();
 };
-//Data
+//Date
+ nControl.billno = function(){
+	db.sales.count({date1 : Date().substr(4,12)}, function(err, cou){
+		nbillno=cou+1;
+//		alert(cou);
+//		alert("it is function"+nbillno);
+	})
+}
+//alert(Date().substr(4,12));
+
 //insert from pos [cash/card mode]
 nControl.executepos = function (mode) {
 	'use strict';
+	nControl.billno();
 	details.items = nControl.billItems;
 	details.customer = $('.cname').val();
 	details.contact = parseInt($('.ccontact').val());
@@ -646,6 +668,8 @@ nControl.executepos = function (mode) {
 	}, db.sales.insert({
 		entrynum: entrynum
 		, date: Date()
+		, date1: Date().substr(4,12)
+		, billno: nbillno
 		, details: details
 		, amount: nControl.total()
 		, from: 'pos'
@@ -729,6 +753,7 @@ nControl.confirmrementry = function (a) {
 	$('#notifaction').html('Yes');
 	$('#notifclosebutton').html('No');
 };
+
 //Inventory
 nControl.itemCategory = function () {
 	$('#cattabs').html('');
@@ -747,32 +772,30 @@ nControl.itemCategory = function () {
 			//if it doesnt exist push the value in the array
 			if (nControl.itemCategories.indexOf(arr[l]) === -1) {
 				nControl.itemCategories.push(arr[l]);
-			}
-			else {
+			} else {
 				//if exists increment to check the next value
 				l++;
 			}
 		}
+		nControl.showInventory();
 		for (i = 0, j = nControl.itemCategories.length; i < j; i++) {
 			if (i === 0) {
 				$('#cattabs').append('<li class="active"><a href="#' + nControl.itemCategories[i] + '" data-toggle="tab">' + nControl.itemCategories[i] + '</a></li>');
-			}
-			else {
+			} else {
 				$('#cattabs').append('<li><a href="#' + nControl.itemCategories[i] + '" data-toggle="tab">' + nControl.itemCategories[i] + '</a></li>');
 			}
 		}
 		for (i = 0, j = nControl.itemCategories.length; i < j; i++) {
 			if (i === 0) {
 				$('#catpanes').append('<div class="tab-pane active" id="' + nControl.itemCategories[i] + '"><br><table id="' + nControl.itemCategories[i] + '"></table></div>');
-			}
-			else {
+			} else {
 				$('#catpanes').append('<div class="tab-pane" id="' + nControl.itemCategories[i] + '"><br><table id="' + nControl.itemCategories[i] + '"></table></div>');
 			}
 		}
 	});
-	nControl.showInventory();
 };
-//load inventory from databse to inventory
+
+//load inventory from database to Sell (UI)
 nControl.showInventory = function () {
 	db.inventory.find({}).sort({
 		num: 1
@@ -812,7 +835,7 @@ nControl.loadEntries = function (a) {
 			else {
 				x = 'inline';
 			}
-			$("#entries").append("<tr style=\"display:" + x + "\"><td id=\"entrya\"><div class='btn-group'><button class='btn btn-xs btn-danger' onclick=\"nControl.confirmrementry(" + docs[i].entrynum + ");\">x</button>&nbsp;<button class='btn btn-xs btn-info' onclick=\"viewdetails(" + docs[i].entrynum + ");\" class='actionview'>View</button></div></td>" + "<td id='entryb'>" + docs[i].entrynum + "</td>" + "<td id='entryc' autocomplete='off' data-content='" + docs[i].date + "'>" + docs[i].date + "</td>" + "<td id='entryd'>" + docs[i].details.summary + "</td>" + "<td id='entrye' class='direction'>" + docs[i].direction + "</td>" + "<td id='entryf'>" + docs[i].amount + "</td></tr>");
+			$("#entries").append("<tr style=\"display:" + x + "\"><td id=\"entrya\"><div class='btn-group'><button class='btn btn-xs btn-danger' onclick=\"nControl.confirmrementry(" + docs[i].entrynum + ");\">x</button>&nbsp;<button class='btn btn-xs btn-info' onclick=\"viewdetails(" + docs[i].entrynum + ");\" class='actionview'>View</button></div></td>" + "<td id='entryb'>" + docs[i].entrynum + "</td>" +"<td id='entryh'>"+docs[i].billno+"</td>"+ "<td id='entryc' autocomplete='off' data-content='" + docs[i].date + "'>" + docs[i].date + "</td>" + "<td id='entryd'>" + docs[i].details.summary + "</td>" + "<td id='entrye' class='direction'>" + docs[i].direction + "</td>" + "<td id='entryf'>" + docs[i].amount + "</td></tr>");
 		}
 		$("#entries").prepend(appendtable);
 		showbalance();
@@ -991,6 +1014,14 @@ nControl.updInventory = function (item) {
 	nControl.pid();
 };
 
+nControl.opensettingsmodal = function () {
+	$("#settings").modal('show');
+}
+
+//var sha1 = require('sha1');
+//var m=sha1("jack");
+//alert(m);
+
 //initialize nControl
 $(document).ready(function () {
 	nControl.init();
@@ -1003,6 +1034,8 @@ $(document).ready(function () {
 	}, syncTimeInterval);
 
 });
+
+////////////////////////baaaaaaaaaaadal.////////////
 
 //check internet connectivity
 nControl.checkInternet = function () {
@@ -1017,11 +1050,12 @@ nControl.checkInternet = function () {
 };
 
 //Synchronization parameters & variables
-var cid=919538045;
-var syncTimeInterval = 3000;
-var url = 'http://192.168.168.21:80/jsphp/post_items.php';
-var syncTimeIntervalSales = 1000;
-var urlSales = 'http://192.168.168.21:80/jsphp/post_sales.php';
+var cid = 18,
+    pass = 123,
+    syncTimeInterval = 3000,
+    url = 'http://192.168.168.21:80/ncontrol/cloud/post_items.php',
+    syncTimeIntervalSales = 6000,
+    urlSales = 'http://192.168.168.21:80/jsphp/post_sales.php';
 
 //Send inventory to the server
 nControl.sendItems = function (data) {
@@ -1047,15 +1081,27 @@ nControl.getItems = function () {
 	, }).exec(function (err, docs) {
 		nControl.syncArray = [];
 		for (var i = 0, j = docs.length; i < j; i++) {
+			if (i === 0) {
+				nControl.syncArray.push({
+					pass: pass
+					, cid: cid
+					, name: docs[i].name
+					, price: docs[i].price
+					, qty: docs[i].qty
+					, num: docs[i].num
+					, category: docs[i].category
+				});
+			} else {
+				nControl.syncArray.push({
+					name: docs[i].name
+					, price: docs[i].price
+					, qty: docs[i].qty
+					, num: docs[i].num
+					, category: docs[i].category
+				});
+			}
 			//Create Array of the items
-			nControl.syncArray.push({
-				cid:cid
-				, name: docs[i].name
-				, price: docs[i].price
-				, qty: docs[i].qty
-				, num: docs[i].num
-				, category: docs[i].category
-			});
+
 		}
 		nControl.sendItems(nControl.syncArray);
 	});
@@ -1089,7 +1135,7 @@ nControl.getsales = function () {
 			for (var k=0,n =docs[i].details.items.length; k<n; k++){
 			//Create Array of the items
 			nControl.syncArray1.push({
-				cid:cid
+				  cid:cid
 				, entrynum: docs[i].entrynum
 				, date: docs[i].date
 				, amount: docs[i].amount
@@ -1110,3 +1156,66 @@ nControl.getsales = function () {
 		nControl.sendsales(nControl.syncArray1);
 	});
 };
+
+//var w;
+//function startWorker() {
+//    if(typeof(Worker) !== "undefined") {
+//        if(typeof(w) == "undefined") {
+//            w = new Worker("scripts/temp.js");
+//        }
+//        w.onmessage = function(event) {
+//            alert(event.data);
+//        };
+//    } else {
+//       alert("Sorry! No Web Worker support.");
+//    }
+//}
+//
+//startWorker();
+//flusing data from node
+//nControl.flush = function(){
+//	require('dns').resolve('nemi.in', function (err) {
+//		if (err) {
+//			alert("NO CONNECTION");
+//		}
+//		else {
+//			 {
+//	db.sales.find({}).sort({
+//		"entrynum": 1
+//	, }).exec(function (err, docs) {
+//		nControl.syncArray1 = [];
+//		for (var i = 0, j = docs.length; i < j; i++) {
+//			for (var k=0,n =docs[i].details.items.length; k<n; k++){
+//			//Create Array of the items
+//			nControl.syncArray1.push({
+//				  cid:cid
+//				, entrynum: docs[i].entrynum
+//				, date: docs[i].date
+//				, amount: docs[i].amount
+//				, from: docs[i].from
+//				, show: docs[i].show
+//				, mode: docs[i].mode
+//				, direction: docs[i].direction
+//				, customer: docs[i].details.customer
+//				, contact: docs[i].details.contact
+//				, summary: docs[i].details.summary
+//				, name: docs[i].details.items[k].name
+//				, price: docs[i].details.items[k].price
+//				, qty: docs[i].details.items[k].qty
+//				, num: docs[i].details.items[k].num
+//                        , category: docs[i].details.items[k].category
+//			});
+//		} }
+//		nControl.sendsales(nControl.syncArray1);
+//	});
+//			var fs = require('fs');
+//	filename: nControl.getUserDataPath() + '/data/sales.db'
+//var filePath = "c:/Users/Sanjay/Documents/GitHub/nControlNW/data/sales.db" ;
+//fs.unlinkSync(filePath);
+//		}
+//	});
+//
+//}
+//nControl.flush();
+
+

@@ -24,7 +24,8 @@ Author(s):
 
 <body>
     <div id="bill">
-        <!-- Small modal -->
+<!--Modals-->
+                <!-- Small modal -->
         <div style="overflow: hidden;padding:5px;" class="modal fade bs-example-modal-sm" id="mySmallModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-sm">
                 <div style="padding:10px;" class="modal-content">
@@ -48,6 +49,31 @@ Author(s):
                 </div>
             </div>
         </div>
+<!--Modal: Settings-->
+        <div style="overflow: hidden;" class="modal fade" id="settings" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel"><div class="alert alert-warning" >Settings</div></h4>
+                    </div>
+                    <div class="modal-body">
+                    <div class="form-group">
+                            <input class="form-control" placeholder="NODE ID" type="text" name="id" class="box">
+                            <input class="form-control" placeholder="Password" type="password" name="password" class="box">
+				  </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="modalsettingsclose" type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button id="modalsetingssave"  class="btn btn-primary" type="submit" data-dismiss="modal">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+<!--Panels-->
         <div id="make" class="control">
             <div class="panel panel-primary" style="height:720px;">
                 <div style="height:50px;padding:7px;background-color:#eee;border-radius:4px;">
@@ -119,7 +145,7 @@ Author(s):
                     <div id="footer">
                         <div class="btn-group">
                             <div class="sell btn-group dropup">
-                                <button style="width:70px;" type="button" class="btn btn-primary" onclick="nControl.setView(1);nControl.appRestart();">Sell</button>
+                                <button style="width:70px;" type="button" class="btn btn-primary" onclick="nControl.setView(1);">Sell</button>
                                 <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                                     <span class="caret"></span>
                                     <span class="sr-only">Toggle Dropdown</span>
@@ -137,7 +163,7 @@ Author(s):
                                 </ul>
                             </div>
                             <div style="width:90px;" class="controlinventory btn btn-default" onclick="nControl.setView(2);">Inventory</div>
-                            <div style="width:90px;" class="btn btn-default disabled">Settings</div>
+                            <div style="width:90px;" class="btn btn-default" onclick="nControl.opensettingsmodal();">Settings</div>
                         </div>
                     </div>
                 </div>
