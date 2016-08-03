@@ -152,6 +152,10 @@ db.inventory = new Datastore({
 	filename: nControl.getUserDataPath() + '/data/inventory.db'
 	, autoload: true
 });
+db.node = new Datastore({
+	filename: nControl.getUserDataPath() + '/data/node.db'
+	, autoload: true
+});
 //var billno
 db.sales.count({date1 : Date().substr(4, 12)}, function(err, cou){
 	'use strict';
@@ -676,6 +680,7 @@ nControl.executepos = function (mode) {
 		, mode: mode
 		, direction: direction
 		, show: true
+		,flushflag: 0
 	}));
 	//load entries from db.sales after user clicks on given button
 	db.sales.find({}).sort({
@@ -755,6 +760,7 @@ nControl.confirmrementry = function (a) {
 };
 
 //Inventory
+
 nControl.itemCategory = function () {
 	$('#cattabs').html('');
 	$('#catpanes').html('');
@@ -794,6 +800,7 @@ nControl.itemCategory = function () {
 		}
 	});
 };
+
 
 //load inventory from database to Sell (UI)
 nControl.showInventory = function () {
@@ -1055,7 +1062,7 @@ var cid = 18,
     syncTimeInterval = 3000,
     url = 'http://192.168.168.21:80/ncontrol/cloud/post_items.php',
     syncTimeIntervalSales = 6000,
-    urlSales = 'http://192.168.168.21:80/jsphp/post_sales.php';
+    urlSales = 'http://192.168.168.21:80/ncontrol/cloud/post_sales.php';
 
 //Send inventory to the server
 nControl.sendItems = function (data) {
@@ -1115,6 +1122,12 @@ nControl.sendsales = function (data) {
 		data: JSON.stringify(data),
 		success: function(data){
 //        		alert(JSON.stringify(data));
+			var j =JSON.stringify(data);
+			var n = j.length;
+			if(j.substring(n-7,n-2) == "1aend"){
+				alert();
+				nControl.removeSales();
+			}
     		},
 		error: function(jqXhr, textStatus, errorThrown){
         		//Handle error message
@@ -1130,12 +1143,16 @@ nControl.getsales = function () {
 	db.sales.find({}).sort({
 		"entrynum": 1
 	, }).exec(function (err, docs) {
+		//call set true f()
+		nControl.flushUpadate();
 		nControl.syncArray1 = [];
 		for (var i = 0, j = docs.length; i < j; i++) {
 			for (var k=0,n =docs[i].details.items.length; k<n; k++){
 			//Create Array of the items
 			nControl.syncArray1.push({
-				  cid:cid
+				  pass: pass
+				, cid: cid
+				, flushflag: docs[i].flushflag
 				, entrynum: docs[i].entrynum
 				, date: docs[i].date
 				, amount: docs[i].amount
@@ -1217,5 +1234,56 @@ nControl.getsales = function () {
 //
 //}
 //nControl.flush();
+nControl.flushUpadate = function(){
+	db.sales.find({}).sort({
+		"entrynum": 1
+	, }).exec(function (err, docs) {
+		for (var i = 0, j = docs.length; i < j; i++) {
+			var date = docs[i].date;
+			var currentDate = Date();
+			var d = new Date(date);
+			var u = new Date(currentDate);
+			var dateDays = (d.getMonth() + 1)*30+d.getDate()+d.getFullYear()*365;
+			var currentDateDays = (u.getMonth() + 1)*30+u.getDate()+u.getFullYear()*365;
+			var dayDiff = currentDateDays - dateDays;
+			if(dayDiff>0){
+				db.sales.update({
+		                entrynum: i
+	                          }, {
+		                 $set: {
+			               flushflag: 1
+		                 }
+
+			           })
+			}
+}})};
+
+// inserting id and password to node.db
+$('.modalsetingssave').click(function () {
+	//get the data from the user
+	var id = $('.idd').val();
+	var password = $('.password').val();
+//	save the data received from the user into the db.node
+	db.node.insert([
+		{
+			id: id
+			, password: password
+
+            }
+        ]);
+
+	});
+// removinf sales in machine
+nControl.removeSales = function(){
+	db.sales.remove ({flushflag: 1}, {multi: true}, function (err, numRemoved) {
+		alert(numRemoved);
+
+	});
+
+};
+
+
+
+
 
 
