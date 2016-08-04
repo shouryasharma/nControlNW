@@ -8,7 +8,7 @@ var nControl = {},
     authset = false,
     appendtable = "<thead><tr><th id='entrya'>Action</th><th id='entryb'>TRN-ID</th><th id='entryh'>BILL</th><th id='entryc'>Date</th><th id='entryd'>Details</th><th id='entrye'><span style='color:blue'>In</span><span style='color:#999'>/</span><span style='color:red'><b>Out</b></span></th><th id='entryf'>Amount</th></thead>",
     entrynum,nbillno, flag = 0,
-    appendinv = "<thead><tr><th id='entryia'>Action</th><th id='entryib'>Name</th><th id='entryic'>Price</th><th id='entryid'>Qty</th><th id='entryie'>PID/DN</th><th id='entryif'>Color</th><th id='entryig'>Category</th></thead>";
+    appendinv = "<thead><tr><th id='entryia'>Action</th><th id='entryib'>Name</th><th id='entryic'>Price</th><th id='entryie'>PID/DN</th><th id='entryig'>Category</th></thead>";
 nControl.init = function () {
 	var n = nControl;
 	n.presets();
@@ -23,9 +23,9 @@ nControl.presets = function () {
 	$('.total').html(0);
 	$('.extra').hide();
 	//    $('.control2').hide();
-	$('#inventorymanager').hide();
+	$('#itemsmanager').hide();
 	//Following are disabled without password
-	$('.controlinventory').addClass('disabled');
+	$('.controlitems').addClass('disabled');
 	$('.execute').addClass('disabled');
 	$('.totalpedigree').hide();
 	$('#myModal').modal('show');
@@ -148,8 +148,8 @@ db.sales = new Datastore({
 	filename: nControl.getUserDataPath() + '/data/sales.db'
 	, autoload: true
 });
-db.inventory = new Datastore({
-	filename: nControl.getUserDataPath() + '/data/inventory.db'
+db.items = new Datastore({
+	filename: nControl.getUserDataPath() + '/data/items.db'
 	, autoload: true
 });
 db.node = new Datastore({
@@ -268,7 +268,7 @@ nControl.auth = function () {
 			authset = true;
 		}
 		if (authset) {
-			$('.controlinventory').removeClass('disabled');
+			$('.controlitems').removeClass('disabled');
 			$('.execute').removeClass('disabled');
 			$('.totalpedigree').show();
 			window.authset = true;
@@ -335,25 +335,25 @@ nControl.Popup = function (data) {
 	return true;
 };
 //Popover quantity set
-nControl.qtySet = function () {
-	var x = parseInt($('#qtypop').val());
-	var y = parseInt($('#example').val());
-	if ($('#qin').is(':checked')) {
-		$('#example').val(x + y);
-		$('#example').popover('hide');
-	}
-	else if ($('#qout').is(':checked')) {
-		$('#example').val(y - x);
-		$('#example').popover('hide');
-	}
-	else {
-		$('#myModal').modal('show');
-		$('#notifaction').hide();
-		$('#notifclosebutton').html('Close');
-		$('#myModal .modal-title').html('Attention!');
-		$('#myModal .modal-body').html('Neither In nor Out was selected. Please select any one of them to continue.');
-	}
-};
+//nControl.qtySet = function () {
+//	var x = parseInt($('#qtypop').val());
+//	var y = parseInt($('#example').val());
+//	if ($('#qin').is(':checked')) {
+//		$('#example').val(x + y);
+//		$('#example').popover('hide');
+//	}
+//	else if ($('#qout').is(':checked')) {
+//		$('#example').val(y - x);
+//		$('#example').popover('hide');
+//	}
+//	else {
+//		$('#myModal').modal('show');
+//		$('#notifaction').hide();
+//		$('#notifclosebutton').html('Close');
+//		$('#myModal .modal-title').html('Attention!');
+//		$('#myModal .modal-body').html('Neither In nor Out was selected. Please select any one of them to continue.');
+//	}
+//};
 //Default view
 $('#make.control').hide();
 //Menu function
@@ -363,12 +363,12 @@ nControl.setView = function (view) {
 		case 0:
 			$('#billitem').css("overflow-y", "scroll");
 			$('#billitem').css("border", "1px solid #eee");
-			$('#inventorymanager').hide();
-			$('#inventorycontent').hide();
+			$('#itemsmanager').hide();
+			$('#itemscontent').hide();
 			$('#make.bill').hide();
 			$('#money').fadeIn();
 			$('#make.control').show();
-			$('#inventory .panel-title.a').html('Control');
+			$('#items .panel-title.a').html('Control');
 			$('#partc').hide();
 			$('#parta').show();
 			$('#parta').html('');
@@ -378,10 +378,10 @@ nControl.setView = function (view) {
 		case 1:
 			$('#money').hide();
 			$('#make.control').hide();
-			$('#inventorymanager').hide();
+			$('#itemsmanager').hide();
 			$('#make.bill').show();
-			$('#inventorycontent').fadeIn();
-			$('#inventory .panel-title.a').html('Sell');
+			$('#itemscontent').fadeIn();
+			$('#items .panel-title.a').html('Sell');
 			break;
 		case 2:
 			if (nControl.billItems.length === 0) {
@@ -391,9 +391,9 @@ nControl.setView = function (view) {
 				$('#money').hide();
 				$('#parta').hide();
 				$('#partb').hide();
-				$('#inventorymanager').fadeIn();
+				$('#itemsmanager').fadeIn();
 				$('#partc').show();
-				$('#inventory .panel-title.a').html('Inventory');
+				$('#items .panel-title.a').html('items');
 				break;
 			} else {
 				nControl.setView(1);
@@ -401,14 +401,14 @@ nControl.setView = function (view) {
 				$('#notifaction').hide();
 				$('#notifclosebutton').html('Close');
 				$('#myModal .modal-title').html('Attention!');
-				$('#myModal .modal-body').html('You cannot modify inventory while you have a bill pending!');
+				$('#myModal .modal-body').html('You cannot modify items while you have a bill pending!');
 			}
 		case 3:
 			$('#Settings').show();
 			break;
 	}
 };
-//Adds items from Inventory to bill
+//Adds items from items to bill
 nControl.addFromProducts = function (a) {
 	'use strict';
 	var pos = 0
@@ -712,15 +712,15 @@ nControl.executepos = function (mode) {
 		nControl.reset();
 	});
 };
-//deduct the qty from inventory stock
+//deduct the qty from items stock
 nControl.deduct = function (dnum, dqty) {
 	'use strict';
-	db.inventory.find({
+	db.items.find({
 		num: dnum
 	}, function (err, docs) {
 		stock = docs[0].qty - dqty;
 		if (docs.qty !== null && docs.qty !== NaN) {
-			db.inventory.update({
+			db.items.update({
 				num: dnum
 			}, {
 				$set: {
@@ -730,15 +730,15 @@ nControl.deduct = function (dnum, dqty) {
 				multi: false
 			}, function (err, numReplaced) {});
 		}
-		//load inventory from db.inventory to display
-		db.inventory.find({}).sort({
+		//load items from db.items to display
+		db.items.find({}).sort({
 			num: 1
 		}).exec(function (err, docs) {
 			nControl.productList = docs;
-			$('.inventoryitems .table').html('');
-			$('.inventoryitems .table').append(appendinv);
+			$('.itemsitems .table').html('');
+			$('.itemsitems .table').append(appendinv);
 			for (var i = 0, j = docs.length; i < j; i++) {
-				$('.inventoryitems .table').append("<tr><td id='entryia'><div class='btn-group'><button class=\"btn btn-danger btn-xs\" data-toggle=\"modal\" data-target=\"#myModal\" onClick=\"nControl.removeinv(" + docs[i].num + ");\">x</button><button class=\"btn btn-warning btn-xs\" data-toggle=\"modal\" data-target=\"#myModal\" onclick=\"nControl.updateInv(" + docs[i].num + ")\">Update</button></div></td><td id='entryib'>" + docs[i].name + "</td><td id='entryic'>" + docs[i].price + "</td><td id='entryid'>" + docs[i].qty + "</td><td id='entryie'>" + docs[i].num + "</td><td id='entryif'>" + docs[i].color + "</td><td id='entryig'>" + docs[i].category + "</td></tr>");
+				$('.itemsitems .table').append("<tr><td id='entryia'><div class='btn-group'><button class=\"btn btn-danger btn-xs\" data-toggle=\"modal\" data-target=\"#myModal\" onClick=\"nControl.removeinv(" + docs[i].num + ");\">x</button><button class=\"btn btn-warning btn-xs\" data-toggle=\"modal\" data-target=\"#myModal\" onclick=\"nControl.updateInv(" + docs[i].num + ")\">Update</button></div></td><td id='entryib'>" + docs[i].name + "</td><td id='entryic'>" + docs[i].price + "</td><td id='entryie'>" + docs[i].num + "</td><td id='entryig'>" + docs[i].category + "</td></tr>");
 			}
 		});
 	});
@@ -759,7 +759,7 @@ nControl.confirmrementry = function (a) {
 	$('#notifclosebutton').html('No');
 };
 
-//Inventory
+//items
 
 nControl.itemCategory = function () {
 	$('#cattabs').html('');
@@ -767,7 +767,7 @@ nControl.itemCategory = function () {
 	var i = 0
 		, arr = []
 		, l = 0;
-	db.inventory.find({}, function (err, docs) {
+	db.items.find({}, function (err, docs) {
 		var j = docs.length;
 		for (i = 0; i < j; i++) {
 			arr[i] = docs[i].category.toUpperCase();
@@ -783,7 +783,7 @@ nControl.itemCategory = function () {
 				l++;
 			}
 		}
-		nControl.showInventory();
+		nControl.showitems();
 		for (i = 0, j = nControl.itemCategories.length; i < j; i++) {
 			if (i === 0) {
 				$('#cattabs').append('<li class="active"><a href="#' + nControl.itemCategories[i] + '" data-toggle="tab">' + nControl.itemCategories[i] + '</a></li>');
@@ -802,16 +802,16 @@ nControl.itemCategory = function () {
 };
 
 
-//load inventory from database to Sell (UI)
-nControl.showInventory = function () {
-	db.inventory.find({}).sort({
+//load items from database to Sell (UI)
+nControl.showitems = function () {
+	db.items.find({}).sort({
 		num: 1
 	}).exec(function (err, docs) {
 		nControl.productList = docs;
-		$('.inventoryitems .table').html('');
-		$('.inventoryitems .table').append(appendinv);
+		$('.itemsitems .table').html('');
+		$('.itemsitems .table').append(appendinv);
 		for (var i = 0, j = docs.length; i < j; i++) {
-			$('.inventoryitems .table').append("<tr><td id='entryia'><div class='btn-group'><button class=\"btn btn-danger btn-xs\" data-toggle=\"modal\" data-target=\"#myModal\" onClick=\"nControl.removeinv(" + docs[i].num + ");\">x</button><button class=\"btn btn-warning btn-xs\" data-toggle=\"modal\" data-target=\"#myModal\" onclick=\"nControl.updateInv(" + docs[i].num + ")\">Update</button></div></td><td id='entryib'>" + docs[i].name + "</td><td id='entryic'>" + docs[i].price + "</td><td id='entryid'>" + docs[i].qty + "</td><td id='entryie'>" + docs[i].num + "</td><td id='entryif'>" + docs[i].color + "</td><td id='entryig'>" + docs[i].category + "</td></tr>");
+			$('.itemsitems .table').append("<tr><td id='entryia'><div class='btn-group'><button class=\"btn btn-danger btn-xs\" data-toggle=\"modal\" data-target=\"#myModal\" onClick=\"nControl.removeinv(" + docs[i].num + ");\">x</button><button class=\"btn btn-warning btn-xs\" data-toggle=\"modal\" data-target=\"#myModal\" onclick=\"nControl.updateInv(" + docs[i].num + ")\">Update</button></div></td><td id='entryib'>" + docs[i].name + "</td><td id='entryic'>" + docs[i].price + "</td><td id='entryie'>" + docs[i].num + "<td id='entryig'>" + docs[i].category + "</td></tr>");
 			for (var m = 0, n = nControl.itemCategories.length; m < n; m++) {
 				if (docs[i].category.toUpperCase() === nControl.itemCategories[m]) {
 					$('#' + nControl.itemCategories[m]).append("<div class=\"btn btn-default\" onclick=\"nControl.addFromProducts(" + docs[i].num + ");nControl.total();\">" + docs[i].name + "<br>" + docs[i].price + "</div>");
@@ -820,7 +820,7 @@ nControl.showInventory = function () {
 		}
 	});
 };
-//load aready existing inventory
+//load aready existing items
 nControl.itemCategory();
 var filters = {};
 nControl.loadEntries = function (a) {
@@ -848,53 +848,47 @@ nControl.loadEntries = function (a) {
 		showbalance();
 	});
 };
-//Add to inventory
-$('.addtoinventory').click(function () {
-	nControl.findInventory();
+//Add to items
+$('.addtoitems').click(function () {
+	nControl.finditems();
 	nControl.pid();
 	//get the data from the user
-	db.inventory.name = $('.inventoryitem').val();
-	db.inventory.price = parseInt($('.inventoryprice').val());
-	db.inventory.qty = parseInt($('.inventoryqty').val());
-	db.inventory.num = parseInt($('.inventorynum').val());
-	db.inventory.color = $('.inventorycolor').val();
-	db.inventory.category = $('#inventorycategory').val();
-	db.inventory.category = db.inventory.category.replace(/\s/g, "-");
-	db.inventory.find({
-		num: db.inventory.num
+	db.items.name = $('.itemsitem').val();
+	db.items.price = parseInt($('.itemsprice').val());
+	db.items.num = parseInt($('.itemsnum').val());
+	db.items.category = $('#itemscategory').val();
+	db.items.category = db.items.category.replace(/\s/g, "-");
+	db.items.find({
+		num: db.items.num
 	}, function (err, docs) {
 		nControl.productList = docs;
 		if (docs.length === 0) {
-			if (db.inventory.name !== '' && db.inventory.price !== '' && db.inventory.qty !== '' && db.inventory.num >= 1 && db.inventory.category !== '') {
-				//save the data received from the user into the db.inventory
-				db.inventory.insert([
+			if (db.items.name !== '' && db.items.price !== '' && db.items.num >= 1 && db.items.category !== '') {
+				//save the data received from the user into the db.items
+				db.items.insert([
 					{
-						name: db.inventory.name
-						, price: db.inventory.price
-						, qty: db.inventory.qty
-						, num: db.inventory.num
-						, color: db.inventory.color
-						, category: db.inventory.category.toUpperCase()
+						name: db.items.name
+						, price: db.items.price
+						, num: db.items.num
+						, category: db.items.category.toUpperCase()
             }
         ]);
 				setTimeout(function () {
 					nControl.itemCategory();
 				}, 0);
-				nControl.findInventory();
+				nControl.finditems();
 				nControl.pid();
-				$('.inventoryitem').val('');
-				$('.inventoryprice').val('');
-				$('.inventoryqty').val('');
-				$('.inventorynum').val('');
-				$('.inventorycolor').val('');
-				$('#inventorycategory').val('');
+				$('.itemsitem').val('');
+				$('.itemsprice').val('');
+				$('.itemsnum').val('');
+				$('#itemscategory').val('');
 			}
 			else {
 				$('#myModal').modal('show');
 				$('#notifaction').hide();
 				$('#notifclosebutton').show();
 				$('#notifclosebutton').html('Close');
-				$('#myModal .modal-body').html("All fields are mandatory except color");
+				$('#myModal .modal-body').html("All fields are mandatory");
 			}
 		}
 		else {
@@ -933,7 +927,7 @@ nControl.removeinv = function (item) {
 	$('#notifaction').show();
 	$('#notifclosebutton').html('No');
 	$('#notifaction').html('Yes');
-	$('#notifaction').attr("onClick", "nControl.reminventory(" + item + ");");
+	$('#notifaction').attr("onClick", "nControl.remitems(" + item + ");");
 };
 // update item confirmation
 nControl.updateInv = function (item) {
@@ -942,21 +936,21 @@ nControl.updateInv = function (item) {
 	$('#notifaction').show();
 	$('#notifaction').html('Yes');
 	$('#notifclosebutton').html('No');
-	$('#notifaction').attr("onClick", "nControl.updInventory(" + item + ");");
+	$('#notifaction').attr("onClick", "nControl.upditems(" + item + ");");
 };
-nControl.reminventory = function (item) {
-	db.inventory.remove({
+nControl.remitems = function (item) {
+	db.items.remove({
 		num: item
 	}, {}, function (err, numRemoved) {
-		//load inventory from db.inventory to display
+		//load items from db.items to display
 		nControl.itemCategory();
 	});
 	$('#myModal').modal('hide');
-	nControl.findInventory();
+	nControl.finditems();
 	nControl.pid();
 };
-nControl.findInventory = function () {
-	db.inventory.find({}).sort({
+nControl.finditems = function () {
+	db.items.find({}).sort({
 		num: 1
 	}).exec(function (err, docs) {
 		nControl.productList = docs;
@@ -964,8 +958,8 @@ nControl.findInventory = function () {
 };
 //auto calculation of pid
 nControl.pid = function () {
-	nControl.findInventory();
-	db.inventory.count({}, function (err, count) {
+	nControl.finditems();
+	db.items.count({}, function (err, count) {
 		'use strict';
 		//count gives us the numbers to look for
 		var searchFlag = 0
@@ -983,41 +977,39 @@ nControl.pid = function () {
 			}
 			searchNum++;
 		}
-		$('.inventorynum').val(searchNum);
+		$('.itemsnum').val(searchNum);
 	});
 };
 // remove item from invertry
-nControl.updInventory = function (item) {
-	db.inventory.find({
+nControl.upditems = function (item) {
+	db.items.find({
 		num: item
 	}, function (err, docs) {
-		$('.inventoryitem').val(docs[0].name);
-		$('.inventoryprice').val(docs[0].price);
-		$('.inventoryqty').val(docs[0].qty);
-		$('.inventorynum').val(docs[0].num);
-		$('.inventorycolor').val(docs[0].color);
-		$('#inventorycategory').val(docs[0].category);
+		$('.itemsitem').val(docs[0].name);
+		$('.itemsprice').val(docs[0].price);
+		$('.itemsnum').val(docs[0].num);
+		$('#itemscategory').val(docs[0].category);
 	});
-	//    $('.inventoryitems').val();
-	db.inventory.remove({
+	//    $('.itemsitems').val();
+	db.items.remove({
 		num: item
 	}, {}, function (err, numRemoved) {
-		//load inventory from db.inventory to display
-		db.inventory.find({}).sort({
+		//load items from db.items to display
+		db.items.find({}).sort({
 			num: 1
 		}).exec(function (err, docs) {
 			nControl.productList = docs;
-			$('.inventoryitems .table').html('');
+			$('.itemsitems .table').html('');
 			$('#products').html('');
-			$('.inventoryitems .table').append(appendinv);
+			$('.itemsitems .table').append(appendinv);
 			for (var i = 0, j = docs.length; i < j; i++) {
-				$('.inventoryitems .table').append("<tr><td id='entryia'><div class='btn-group'><button class=\"btn btn-danger btn-xs\" data-toggle=\"modal\" data-target=\"#myModal\" onClick=\"nControl.removeinv(" + docs[i].num + ");\">x</button><button class=\"btn btn-warning btn-xs\" data-toggle=\"modal\" data-target=\"#myModal\" onclick=\"nControl.updateInv(" + docs[i].num + ")\">Update</button></div></td><td id='entryib'>" + docs[i].name + "</td><td id='entryic'>" + docs[i].price + "</td><td id='entryid'>" + docs[i].qty + "</td><td id='entryie'>" + docs[i].num + "</td><td id='entryif'>" + docs[i].color + "</td><td id='entryig'>" + docs[i].category + "</td></tr>");
+				$('.itemsitems .table').append("<tr><td id='entryia'><div class='btn-group'><button class=\"btn btn-danger btn-xs\" data-toggle=\"modal\" data-target=\"#myModal\" onClick=\"nControl.removeinv(" + docs[i].num + ");\">x</button><button class=\"btn btn-warning btn-xs\" data-toggle=\"modal\" data-target=\"#myModal\" onclick=\"nControl.updateInv(" + docs[i].num + ")\">Update</button></div></td><td id='entryib'>" + docs[i].name + "</td><td id='entryic'>" + docs[i].price + "</td><td id='entryie'>" + docs[i].num + "</td><td id='entryig'>" + docs[i].category + "</td></tr>");
 				$('#products').append("<div class=\"btn btn-default\" onclick=\"nControl.addFromProducts(" + docs[i].num + ");nControl.total();\">" + docs[i].name + "<br>" + docs[i].price + "</div>");
 			}
 		});
 	});
 	$('#myModal').modal('hide');
-	nControl.findInventory();
+	nControl.finditems();
 	nControl.pid();
 };
 
@@ -1041,8 +1033,24 @@ $(document).ready(function () {
 	}, syncTimeInterval);
 
 });
+///////////////////////////////////////////////locale///////////////////////////////////////////////////////////
+nControl.localBackup = function(){
+var fs = require('fs');
+var writeStream = fs.createWriteStream("file.xls");
 
-////////////////////////baaaaaaaaaaadal.////////////
+var header="Sl No"+"\t"+" Age"+"\t"+"Name"+"\n";
+var row1 = "0"+"\t"+" 21"+"\t"+"Rob"+"\n";
+var row2 = "1"+"\t"+" 22"+"\t"+"bob"+"\n";
+
+writeStream.write(header);
+writeStream.write(row1);
+writeStream.write(row2);
+
+writeStream.close();
+}
+nControl.localBackup();
+
+////////////////////////////////////////////////////baaaaaaaaaaadal.////////////////////////////////////////////////////////
 
 //check internet connectivity
 nControl.checkInternet = function () {
@@ -1064,7 +1072,7 @@ var cid = 18,
     syncTimeIntervalSales = 6000,
     urlSales = 'http://192.168.168.21:80/ncontrol/cloud/post_sales.php';
 
-//Send inventory to the server
+//Send items to the server
 nControl.sendItems = function (data) {
 	$.ajax({
 		type: 'POST',
@@ -1081,9 +1089,9 @@ nControl.sendItems = function (data) {
 	});
 };
 
-//Get items from the inventory database
+//Get items from the items database
 nControl.getItems = function () {
-	db.inventory.find({}).sort({
+	db.items.find({}).sort({
 		"num": 1
 	, }).exec(function (err, docs) {
 		nControl.syncArray = [];
@@ -1094,7 +1102,6 @@ nControl.getItems = function () {
 					, cid: cid
 					, name: docs[i].name
 					, price: docs[i].price
-					, qty: docs[i].qty
 					, num: docs[i].num
 					, category: docs[i].category
 				});
@@ -1102,7 +1109,6 @@ nControl.getItems = function () {
 				nControl.syncArray.push({
 					name: docs[i].name
 					, price: docs[i].price
-					, qty: docs[i].qty
 					, num: docs[i].num
 					, category: docs[i].category
 				});
@@ -1190,49 +1196,6 @@ nControl.getsales = function () {
 //
 //startWorker();
 //flusing data from node
-//nControl.flush = function(){
-//	require('dns').resolve('nemi.in', function (err) {
-//		if (err) {
-//			alert("NO CONNECTION");
-//		}
-//		else {
-//			 {
-//	db.sales.find({}).sort({
-//		"entrynum": 1
-//	, }).exec(function (err, docs) {
-//		nControl.syncArray1 = [];
-//		for (var i = 0, j = docs.length; i < j; i++) {
-//			for (var k=0,n =docs[i].details.items.length; k<n; k++){
-//			//Create Array of the items
-//			nControl.syncArray1.push({
-//				  cid:cid
-//				, entrynum: docs[i].entrynum
-//				, date: docs[i].date
-//				, amount: docs[i].amount
-//				, from: docs[i].from
-//				, show: docs[i].show
-//				, mode: docs[i].mode
-//				, direction: docs[i].direction
-//				, customer: docs[i].details.customer
-//				, contact: docs[i].details.contact
-//				, summary: docs[i].details.summary
-//				, name: docs[i].details.items[k].name
-//				, price: docs[i].details.items[k].price
-//				, qty: docs[i].details.items[k].qty
-//				, num: docs[i].details.items[k].num
-//                        , category: docs[i].details.items[k].category
-//			});
-//		} }
-//		nControl.sendsales(nControl.syncArray1);
-//	});
-//			var fs = require('fs');
-//	filename: nControl.getUserDataPath() + '/data/sales.db'
-//var filePath = "c:/Users/Sanjay/Documents/GitHub/nControlNW/data/sales.db" ;
-//fs.unlinkSync(filePath);
-//		}
-//	});
-//
-//}
 //nControl.flush();
 nControl.flushUpadate = function(){
 	db.sales.find({}).sort({
@@ -1281,6 +1244,7 @@ nControl.removeSales = function(){
 	});
 
 };
+
 
 
 

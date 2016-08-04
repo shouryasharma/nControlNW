@@ -126,20 +126,19 @@ Author(s):
                         <div id="parta"></div>
                         <div id="partb"></div>
                         <div id="partc" style="display:none;">
-                            <h3>Inventory Control</h3>
+                            <h3>items Control</h3>
                             Item Name:
-                            <input class="inventoryitem form-control" type="text" placeholder="Item Name">Price:
-                            <input class="inventoryprice form-control" type="number" placeholder="Price">Stock:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#ddd;">(Leave empty if not applicable)</span>
-                            <input id="example" class="inventoryqty form-control" type="number" placeholder="Stock" data-content="<div class='btn-group' data-toggle='buttons'><label class='btn btn-default'><input type='radio' name='direction' id='qin' value='In'>In</label><label class='btn btn-default'><input type='radio' name='direction' id='qout' value='Out'>Out</label></div><input id='qtypop' style='display:inline;width:90px;' type='number' class='form-control'><button style='display:inline;' class='btn btn-primary' onClick='nControl.qtySet();'>Set</button>">PID/DN:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <input class="itemsitem form-control" type="text" placeholder="Item Name">Price:
+                            <input class="itemsprice form-control" type="number" placeholder="Price">
+                            PID/DN:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             <span style="color:#ddd;">(Product ID) / DN (Display Number)</span>
-                            <input id="examplepid" data-content="Click on Inventory button below to get an auto generated value for PID/DN." class="inventorynum form-control" type="number" placeholder="PID/DN">Color:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            <span style="color:#ddd;">(You can leave this empty)</span>
-                            <input class="inventorycolor form-control" type="text" placeholder="Color" disabled>Category:
+                            <input id="examplepid" data-content="Click on items button below to get an auto generated value for PID/DN." class="itemsnum form-control" type="number" placeholder="PID/DN">
+                            Category:
                             <div id="the-basics">
-                                <input id="inventorycategory" class="inventorycategory typeahead form-control" autocomplete="off" type="text" placeholder="Category">
+                                <input id="itemscategory" class="itemscategory typeahead form-control" autocomplete="off" type="text" placeholder="Category">
                             </div>
                             <br>
-                            <button class="addtoinventory btn btn-default">ADD</button>
+                            <button class="addtoitems btn btn-default">ADD</button>
                         </div>
                     </div>
                     <div id="footer">
@@ -151,7 +150,7 @@ Author(s):
                                     <span class="sr-only">Toggle Dropdown</span>
                                 </button>
                                 <ul class="dropdown-menu pull-right" role="menu" style="text-align:left;">
-                                    <li class="disabled"><a>Inventory</a>
+                                    <li class="disabled"><a>items</a>
                                     </li>
                                     <li class="disabled"><a>User Management</a>
                                     </li>
@@ -162,7 +161,7 @@ Author(s):
                                     </li>
                                 </ul>
                             </div>
-                            <div style="width:90px;" class="controlinventory btn btn-default" onclick="nControl.setView(2);">Inventory</div>
+                            <div style="width:90px;" class="controlitems btn btn-default" onclick="nControl.setView(2);">items</div>
                             <div style="width:90px;" class="btn btn-default" onclick="nControl.opensettingsmodal();">Settings</div>
                         </div>
                     </div>
@@ -237,13 +236,13 @@ Author(s):
                 </div>
             </div>
         </div>
-        <div id="inventory">
+        <div id="items">
             <div class="panel panel-primary" style="height:720px;">
                 <div class="panel-heading" style="height:40px;">
                     <h3 style="position:relative;float:left;" class="panel-title a">Products</h3>
                     <h3 style="font-family:impact;font-weight:100;color:#fff;position:relative;float:right;" class="panel-title">&copy;&nbsp;nemi</h1>
                 </div>
-                <div id="inventorycontent" class="panel-body">
+                <div id="itemscontent" class="panel-body">
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs" id="cattabs">
                     </ul>
@@ -272,8 +271,8 @@ Author(s):
                         <table id="entries" class='table table-hover table-condensed'></table>
                     </div>
                 </div>
-                <div id="inventorymanager" class="panel-body">
-                    <div class="inventoryitems">
+                <div id="itemsmanager" class="panel-body">
+                    <div class="itemsitems">
                         <table class="table table-striped table-hover table-condensed"></table>
                     </div>
                 </div>

@@ -157,7 +157,7 @@ body {
     left: 0;
     right: 0;
 }
-@media (max-width: 1280px) {} #inventory {
+@media (max-width: 1280px) {} #items {
     position:relative;
     width:564px;
     float:right;
@@ -389,26 +389,26 @@ body {
     min-width: 80px;
     max-width: 80px;
 }
-/*Inventory Items*/
+/*items Items*/
 
-.inventoryitems .table {
+.itemsitems .table {
     overflow-y: hidden;
 }
-.inventoryitems .table thead,
-.inventoryitems .table tbody {
+.itemsitems .table thead,
+.itemsitems .table tbody {
     width: 525px;
     display: block;
 }
-.inventoryitems .table tbody {
+.itemsitems .table tbody {
     height: 575px;
     overflow-y: scroll;
 }
-.inventoryitems .table thead {
+.itemsitems .table thead {
     display: block;
     width: 510px;
 }
-.inventoryitems .table td,
-.inventoryitems .table th {
+.itemsitems .table td,
+.itemsitems .table th {
     text-align: center;
     overflow: hidden;
     white-space: nowrap;
@@ -488,7 +488,7 @@ body {
     width: 550px;
     height: 600px;
 }
-.inventoryitems {
+.itemsitems {
     height: 650px;
     overflow: auto;
     overflow-x: hidden;
@@ -498,7 +498,7 @@ body {
     left: 0;
     right: 0;
 }
-#inventorycontent {
+#itemscontent {
     /*    height: 596px;*/
     overflow: auto;
     overflow-x: hidden;
