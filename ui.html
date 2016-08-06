@@ -59,13 +59,25 @@ Author(s):
                     </div>
                     <div class="modal-body">
                     <div class="form-group">
+                           <h3>Printer Slip</h3>
+                            <input class="form-control" id="" placeholder="Unit" type="text" name="" class="box">
+                            <input class="form-control" id="" placeholder="Address" type="text" name="" class="box">
+                            <input class="form-control" id="" placeholder="Thank You Note" type="text" name="" class="box">
+                            <input class="form-control" id="" placeholder="Tin Number" type="text" name="" class="box">
+                            <input class="form-control" id="" placeholder="Service TAX" type="text" name="" class="box">
+                            <input class="form-control" id="" placeholder="VAT" type="text" name="" class="box">
+				  </div>
+                    <div class="form-group">
+
+                           <h3>Cloud login</h3>
                             <input class="idd form-control" id="idd" placeholder="NODE ID" type="text" name="id" class="box">
                             <input class="password form-control" id="password" placeholder="Password" type="password" name="password" class="box">
+                             <button id="modalsetingssave"  class="modalsetingssave btn btn-primary" type="submit"  data-dismiss="modal">Save</button>
 				  </div>
                     </div>
                     <div class="modal-footer">
                         <button id="modalsettingsclose" type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                        <button id="modalsetingssave"  class="modalsetingssave btn btn-primary" type="submit"  data-dismiss="modal">Save</button>
+
                     </div>
                 </div>
             </div>
@@ -287,6 +299,8 @@ Author(s):
     <script src="libs/jquery.gsap.js"></script>
     <script src="libs/typeahead.jquery.min.js"></script>
     <script src="scripts/controls.js"></script>
+    <script src="scripts/cloud.js"></script>
+    <script src="scripts/prefs.js"></script>
     <script src="scripts/toastr.js"></script>
 </body>
 </html>
