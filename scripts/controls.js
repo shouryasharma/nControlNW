@@ -159,6 +159,10 @@ db.prefs = new Datastore({
 	filename: nControl.getUserDataPath() + '/data/prefs.db'
 	, autoload: true
 });
+db.user = new Datastore({
+	filename: nControl.getUserDataPath() + '/data/user.db'
+	, autoload: true
+});
 //var billno
 db.sales.count({date1 : Date().substr(4, 12)}, function(err, cou){
 	'use strict';
@@ -262,9 +266,28 @@ function viewdetails(a) {
 		}
 	});
 }
+//checking user in database
+var user;
+nControl.checkUsers = function (){
+	db.user.count({}, function (err, count) {
+	'use strict';
+	user = count;
+
+});
+}
 //User Authenticaion
 nControl.auth = function () {
 	//do authorization
+	db.user.count({}, function (err, count) {
+	'use strict';
+	user = count;
+
+
+	if(user === 0){
+		alert("no user");
+		$('#fUser').modal('show');
+
+	}else{
 	$('.authgo').click(function () {
 		var authpass = $('.authpass').val();
 		if (authpass === '') {
@@ -296,7 +319,7 @@ nControl.auth = function () {
 				$('#nmsg').fadeOut();
 			}, 1000);
 		}
-	});
+	});}
 	//print via java applet
 	/*function printBill() {
     setTimeout(function () {
@@ -309,7 +332,7 @@ nControl.auth = function () {
         window.print();
     }, 100);
 }*/
-};
+});};
 //Print via javascript
 nControl.print = function (elem) {
 	'use strict';
