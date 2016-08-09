@@ -30,7 +30,7 @@ nControl.presets = function () {
 	$('.totalpedigree').hide();
 	$('#myModal').modal('show');
 	$('#myModal .modal-title').html('Welcome to <b>nControl</b>');
-	$('#myModal .modal-body').html('Enter admin password or click \'Ignore\'<br><br><div class="row"><div class="col-lg-6"></div><!-- /input-group --></div><!-- /.col-lg-6 --><div class="col-lg-6"><div class="input-group"><input class=\"luser form-control\" type=\"text\" placeholder=\"USER NAME\"><input class=\"authpass form-control\" type=\"password\" placeholder=\"Password\"><button class="authbutton btn btn-primary" type="button">Go!</button></span></div><!-- /input-group --></div><!-- /.col-lg-6 --></div><!-- /.row --><br><br><div class="alert alert-warning" id=\"nmsg\"></div>');
+	$('#myModal .modal-body').html('Enter admin password or click \'Ignore\'<br><br><div class="row"><div class="col-lg-6"></div><!-- /input-group --></div><!-- /.col-lg-6 --><div class="col-lg-6"><div class="input-group"><input class=\"luser form-control\" type=\"text\" placeholder=\"USER NAME\"><input class=\"authpass form-control\" type=\"password\" placeholder=\"Password\"><button class="authbutton btn btn-primary" type="button">Go!</button></span></div><!-- /input-group --></div><!-- /.col-lg-6 --></div><!-- /.row --><br><br><br><br><br><div class="alert alert-warning" id=\"nmsg\"></div>');
 	$('#notifaction').hide();
 	$('.authbutton').addClass('authgo');
 	$('#notifclosebutton').html('Ignore');
@@ -274,84 +274,7 @@ nControl.checkUsers = function (){
 	user = count;
 		});
 }
-//creating user
-nControl.createuser = function (){
-	var username = $('.username').val();
-	var urole = $('.urole').val();
-	var passcode = $('.upassword').val();
-	alert(passcode);
-	// save the data received from the user into the db.node
-	db.user.insert([
-		{
-			username: username
-			,role: urole
-			, password: passcode
-		}
-	]);
 
-}
-
-
-//User Authenticaion
-nControl.auth = function () {
-	//do authorization
-//	alert(" jai ho");
-	db.user.count({}, function (err, count) {
-	'use strict';
-	user = count;
-	if(user === 0){
-		$('#fUser').modal('show');
-
-	}
-
-	$('.authgo').click(function () {
-		var lname = $('.luser').val();
-		var authpass = $('.authpass').val();
-		var pass;
-		db.user.findOne({ username : lname }).projection({username:1,'password': 1}).exec(function (err, docs){alert( docs[0].password)});
-		if (authpass == pass) {
-			authset = true;
-		}
-		if (authset) {
-			$('.controlitems').removeClass('disabled');
-			$('.execute').removeClass('disabled');
-			$('.totalpedigree').show();
-			window.authset = true;
-			setTimeout(function () {
-				$('#progressbar').css("width", "150px");
-			}, 90);
-			setTimeout(function () {
-				//include a java applet
-				/*$("#bill").append("<applet></applet>");
-        $("applet").attr("code", "PrintApplet.class");
-        $("applet").attr("name", "PrintApplet");
-        $("applet").attr("width", "0");
-        $("applet").attr("height", "0");*/
-				$('#myModal').modal('hide');
-			}, 100);
-		}
-		else {
-			$('.authpass').val('');
-			$('#nmsg').show();
-			$("#nmsg").html("<b>Oh snap!</b> Incorrect password. Please try again.");
-			setTimeout(function () {
-				$('#nmsg').fadeOut();
-			}, 1000);
-		}
-	});
-	//print via java applet
-	/*function printBill() {
-    setTimeout(function () {
-        document.PrintApplet.startPrint();
-    }, 100);
-}*/
-	//print via default print dialog
-	/*function printBill() {
-    setTimeout(function () {
-        window.print();
-    }, 100);
-}*/
-});};
 //Print via javascript
 nControl.print = function (elem) {
 	'use strict';
@@ -1110,10 +1033,12 @@ nControl.localBackup();
 //}
 //
 //startWorker();
-nControl.finduser = function (){
-	db.user.find({"username": "harry"}).exec(function (err, docs){alert( docs[0].password)});
-}
-nControl.finduser();
+//nControl.finduser = function (){var j;
+//db.user.find({"username": "harry"},function (err, docs){ j=( docs[0].password); return j;});
+//
+//}
+//
+//alert(nControl.finduser(););
 
 
 
