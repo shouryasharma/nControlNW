@@ -272,17 +272,31 @@ nControl.checkUsers = function (){
 	db.user.count({}, function (err, count) {
 	'use strict';
 	user = count;
-
-});
+		});
 }
+//creating user
+nControl.createuser = function (){
+	var username = $('.username').val();
+	var passcode = $('.upassword').val();
+	alert(passcode);
+	// save the data received from the user into the db.node
+	db.user.insert([
+		{
+			username: username
+			, password: passcode
+		}
+	]);
+
+}
+
+
 //User Authenticaion
 nControl.auth = function () {
 	//do authorization
+//	alert(" jai ho");
 	db.user.count({}, function (err, count) {
 	'use strict';
 	user = count;
-
-
 	if(user === 0){
 		alert("no user");
 		$('#fUser').modal('show');

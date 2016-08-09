@@ -12,12 +12,13 @@ nControl.checkInternet = function () {
 
 //Synchronization parameters & variables
 var cid = 20,
-    pass = "harry",
+    pass = 123,
     syncTimeInterval = 3000,
-    url = 'http://199.79.62.121:3306/ncontrol/cloud/post_items.php',
+    url = 'http://52.36.204.20/cloud/post_items.php',
     syncTimeIntervalSales = 6000,
-    urlSales = 'http://199.79.62.121:3306/ncontrol/cloud/post_sales.php';
-
+    urlSales = 'http://52.36.204.20/cloud/post_sales.php';
+//  urlSales='http://127.0.0.1/ncontrol/cloud/post_sales.php';
+//var url='http://127.0.0.1/ncontrol/cloud/post_items.php';
 //Send items to the server
 nControl.sendItems = function (data) {
 	$.ajax({
@@ -25,7 +26,7 @@ nControl.sendItems = function (data) {
 		url: url,
 		data: JSON.stringify(data),
 		success: function(data){
-      		alert(JSON.stringify(data));
+//      		alert(JSON.stringify(data));
     		},
 		error: function(jqXhr, textStatus, errorThrown){
         		//Handle error message
@@ -50,6 +51,7 @@ nControl.getItems = function () {
 					, price: docs[i].price
 					, num: docs[i].num
 					, category: docs[i].category
+
 				});
 			} else {
 				nControl.syncArray.push({
@@ -77,7 +79,7 @@ nControl.sendsales = function (data) {
 			var j =JSON.stringify(data);
 			var n = j.length;
 			if(j.substring(n-7,n-2) == "1aend"){
-				alert();
+//				alert();
 				nControl.removeSales();
 			}
     		},
@@ -155,7 +157,7 @@ nControl.flushUpadate = function(){
 // removinf sales in machine
 nControl.removeSales = function(){
 	db.sales.remove ({flushflag: 1}, {multi: true}, function (err, numRemoved) {
-		alert(numRemoved);
+//		alert(numRemoved);
 
 	});
 };
