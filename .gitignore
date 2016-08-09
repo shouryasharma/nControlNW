@@ -21,3 +21,8 @@
 /snapshot_blob.bin
 /items.db
 /prefs.db
+/data/prefs.db
+/data/node.db
+/data/items.db
+/data/user.db
+/file.xls
