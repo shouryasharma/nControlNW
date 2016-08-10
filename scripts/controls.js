@@ -374,6 +374,15 @@ nControl.setView = function (view) {
 		case 3:
 			$('#Settings').show();
 			break;
+		case 4:
+			$('#money').hide();
+			$('#make.control').hide();
+			$('#itemsmanager').hide();
+			$('#make.bill').show();
+			$('#itemscontent').fadeIn();
+			$('#items .panel-title.a').html('User list');
+			break;
+
 	}
 };
 //Adds items from items to bill

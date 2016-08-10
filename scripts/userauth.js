@@ -8,12 +8,7 @@ nControl.auth = function () {
 		if(count === 0){
 			$('#fUser').modal('show');
 		}
-
-		//user should enter the details of superuser
-	//user should write the password twice
-	//check if both passwords enetered by user are same
-	//if everything enetered by the user is good enoughmake an entry in the db
-
+		//user auth checker
 		$('.authgo').click(function () {
 			var lname = $('.luser').val();
 			var authpass = $('.authpass').val();
@@ -35,7 +30,7 @@ nControl.auth = function () {
 						$('#myModal').modal('hide');
 					}, 100);
 				}
-
+ 				//if pass is wrong
 				else {
 					$('.authpass').val('');
 					$('#nmsg').show();
@@ -65,9 +60,4 @@ nControl.createuser = function (){
 		}
 	]);
 
-		} esle
-		{
-	// save the data received from the user into the db.node
-
-
-		}}
+		}
