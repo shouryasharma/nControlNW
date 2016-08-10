@@ -61,3 +61,4 @@ nControl.createuser = function (){
 	]);
 
 		}
+}
