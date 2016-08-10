@@ -56,7 +56,9 @@ nControl.createuser = function (){
 		{
 			username: username
 			,role: urole
+			,ids:1
 			, password: passcode
+
 		}
 	]);
 

@@ -163,7 +163,7 @@ Author(s):
                         <div id="parta"></div>
                         <div id="partb"></div>
                         <div id="partc" style="display:none;">
-                            <h3>items Control</h3>
+                            <h3>Items Control</h3>
                             Item Name:
                             <input class="itemsitem form-control" type="text" placeholder="Item Name">Price:
                             <input class="itemsprice form-control" type="number" placeholder="Price">
@@ -177,6 +177,18 @@ Author(s):
                             <br>
                             <button class="addtoitems btn btn-default">ADD</button>
                         </div>
+                        <div id="partd" style="display:none;">
+                            <h3>User Control</h3>
+                            Item Name:
+                            <input class="user_id form-control" type="text" placeholder="Username">
+                            Role:
+                            <input class="role_type form-control" type="text" placeholder="Role">
+
+                            Password:
+                            <input  class="passuser form-control" autocomplete="off" type="text" placeholder="Password">
+                            <br>
+                            <button class="addtouser btn btn-default">ADD</button>
+                        </div>
                     </div>
                     <div id="footer">
                         <div class="btn-group">
@@ -187,11 +199,7 @@ Author(s):
                                     <span class="sr-only">Toggle Dropdown</span>
                                 </button>
                                 <ul class="dropdown-menu pull-right" role="menu" style="text-align:left;">
-                                    <li class="disabled"><a>items</a>
-                                    </li>
-                                    <li onclick="nControl.setview(4);" ><a>User Management</a>
-                                    </li>
-                                    <li class="disabled"><a>Settings</a>
+                                    <li onclick="nControl.setView(3);" ><a>User Management</a>
                                     </li>
                                     <li class="divider"></li>
                                     <li onClick="nControl.setView(0);"><a>Control</a>
@@ -313,6 +321,11 @@ Author(s):
                         <table class="table table-striped table-hover table-condensed"></table>
                     </div>
                 </div>
+                <div id="usermanager" class="panel-body">
+                    <div class="user">
+                        <table class="table table-striped table-hover table-condensed"></table>
+                    </div>
+                </div>
             </div>
         </div>
         <!--        <applet code="PrintApplet.class" name="PrintApplet" width="0" height="0"></applet>-->
@@ -327,6 +340,7 @@ Author(s):
     <script src="scripts/userauth.js"></script>
     <script src="scripts/cloud.js"></script>
     <script src="scripts/prefs.js"></script>
+    <script src="scripts/usermanagment.js"></script>
     <script src="scripts/toastr.js"></script>
 </body>
 </html>

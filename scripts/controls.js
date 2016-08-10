@@ -1,4 +1,5 @@
 var nControl = {},
+    example = {},
     details = {},
     gui = require('nw.gui'),
     win = gui.Window.get(),
@@ -6,9 +7,10 @@ var nControl = {},
     from = 'control',
     direction, docs, stock = 0,
     authset = false,
-    appendtable = "<thead><tr><th id='entrya'>Action</th><th id='entryb'>TRN-ID</th><th id='entryh'>BILL</th><th id='entryc'>Date</th><th id='entryd'>Details</th><th id='entrye'><span style='color:blue'>In</span><span style='color:#999'>/</span><span style='color:red'><b>Out</b></span></th><th id='entryf'>Amount</th></thead>",
+    appendtable = "<thead><tr><th id='entrya'>Action</th><th id='entryb'>TRN-ID</th><th id='entryc'>Date</th><th id='entryd'>Details</th><th id='entrye'><span style='color:blue'>In</span><span style='color:#999'>/</span><span style='color:red'><b>Out</b></span></th><th id='entryf'>Amount</th></thead>",
     entrynum,nbillno, flag = 0,
-    appendinv = "<thead><tr><th id='entryia'>Action</th><th id='entryib'>Name</th><th id='entryic'>Price</th><th id='entryie'>PID/DN</th><th id='entryig'>Category</th></thead>";
+    appendinv = "<thead><tr><th id='itemsa'>Action</th><th id='itemsb'>Name</th><th id='itemsc'>Price</th><th id='itemse'>PID/DN</th><th id='itemsg'>Category</th></thead>",
+    userdiv = "<thead><tr><th id='usera'>Action</th><th id='userb'>Name</th><th id='userc'>role</th><th id='usere'>ID</th></thead>";
 nControl.init = function () {
 	var n = nControl;
 	n.presets();
@@ -17,6 +19,7 @@ nControl.init = function () {
 	//pay requires print
 	n.loadEntries();
 };
+
 //Presets
 nControl.presets = function () {
 	gui.Window.get().show();
@@ -123,7 +126,7 @@ $('.execute').click(function () {
 				} else {
 					x = 'inline';
 				}
-				$("#entries").append("<tr style=\"display:" + x + "\"><td id=\"entrya\"><div class='btn-group'><button class='btn btn-xs btn-danger' onclick=\"nControl.confirmrementry(" + docs[i].entrynum + ");\">x</button>&nbsp;<button class='btn btn-xs btn-info' onclick=\"viewdetails(" + docs[i].entrynum + ");\" class='actionview'>View</button></div></td>" + "<td id='entryb'>" + docs[i].entrynum + "</td>" +"<td id='entryh'>" + docs.billno + "</td>"+ "<td id='entryc' data-content=" + docs[i].date + ">" + docs[i].date + "</td>" + "<td id='entryd'>" + docs[i].details.summary + "</td>" + "<td id='entrye' class='direction'>" + docs[i].direction + "</td>" + "<td id='entryf'>" + docs[i].amount + "</td></tr>");
+				$("#entries").append("<tr style=\"display:" + x + "\"><td id=\"entrya\"><div class='btn-group'><button class='btn btn-xs btn-danger' onclick=\"nControl.confirmrementry(" + docs[i].entrynum + ");\">x</button>&nbsp;<button class='btn btn-xs btn-info' onclick=\"viewdetails(" + docs[i].entrynum + ");\" class='actionview'>View</button></div></td>" + "<td id='entryb'>" + docs[i].entrynum + "</td>" + "<td id='entryc' data-content=" + docs[i].date + ">" + docs[i].date + "</td>" + "<td id='entryd'>" + docs[i].details.summary + "</td>" + "<td id='entrye' class='direction'>" + docs[i].direction + "</td>" + "<td id='entryf'>" + docs[i].amount + "</td></tr>");
 			}
 			$("entries").append("<tbody></table>");
 			showbalance();
@@ -236,7 +239,7 @@ function removeentry(a) {
 				else {
 					x = 'inline';
 				}
-				$("#entries").append("<tr style=\"display:" + x + "\"><td id=\"entrya\"><div class='btn-group'><button class='btn btn-xs btn-danger' onclick=\"nControl.confirmrementry(" + docs[i].entrynum + ");\">x</button>&nbsp;<button class='btn btn-xs btn-info' onclick=\"viewdetails(" + docs[i].entrynum + ");\" class='actionview'>View</button></div></td>" + "<td id='entryb'>" + docs[i].entrynum + "</td>"+"<td id='entryh'>"+docs[i].billno+"</td>" + "<td id='entryc' data-content='" + docs[i].date + "' >" + docs[i].date + "</td>" + "<td id='entryd'>" + docs[i].details.summary + "</td>" + "<td id='entrye' class='direction'>" + docs[i].direction + "</td>" + "<td id='entryf'>" + docs[i].amount + "</td></tr>");
+				$("#entries").append("<tr style=\"display:" + x + "\"><td id=\"entrya\"><div class='btn-group'><button class='btn btn-xs btn-danger' onclick=\"nControl.confirmrementry(" + docs[i].entrynum + ");\">x</button>&nbsp;<button class='btn btn-xs btn-info' onclick=\"viewdetails(" + docs[i].entrynum + ");\" class='actionview'>View</button></div></td>" + "<td id='entryb'>" + docs[i].entrynum + "</td>"+ "<td id='entryc' data-content='" + docs[i].date + "' >" + docs[i].date + "</td>" + "<td id='entryd'>" + docs[i].details.summary + "</td>" + "<td id='entrye' class='direction'>" + docs[i].direction + "</td>" + "<td id='entryf'>" + docs[i].amount + "</td></tr>");
 			}
 			$("entries").append("<tbody></table>");
 			showbalance();
@@ -332,6 +335,7 @@ nControl.setView = function (view) {
 			$('#billitem').css("overflow-y", "scroll");
 			$('#billitem').css("border", "1px solid #eee");
 			$('#itemsmanager').hide();
+			$('#usermanager').hide();
 			$('#itemscontent').hide();
 			$('#make.bill').hide();
 			$('#money').fadeIn();
@@ -342,9 +346,11 @@ nControl.setView = function (view) {
 			$('#parta').html('');
 			$('#partb').show();
 			$('#partb').html('');
+			$('#partd').hide();
 			break;
 		case 1:
 			$('#money').hide();
+			$('#usermanager').hide();
 			$('#make.control').hide();
 			$('#itemsmanager').hide();
 			$('#make.bill').show();
@@ -362,6 +368,7 @@ nControl.setView = function (view) {
 				$('#itemsmanager').fadeIn();
 				$('#partc').show();
 				$('#items .panel-title.a').html('items');
+				$('#partd').hide();
 				break;
 			} else {
 				nControl.setView(1);
@@ -372,14 +379,17 @@ nControl.setView = function (view) {
 				$('#myModal .modal-body').html('You cannot modify items while you have a bill pending!');
 			}
 		case 3:
-			$('#Settings').show();
-			break;
-		case 4:
-			$('#money').hide();
-			$('#make.control').hide();
+			$('#partd').show();
 			$('#itemsmanager').hide();
-			$('#make.bill').show();
-			$('#itemscontent').fadeIn();
+			$('#itemscontent').hide();
+			$('#usermanager').show();
+			$('#money').hide();
+			$('#parta').hide();
+			$('#partb').hide();
+			$('#partc').hide();
+			$('#make.bill').hide();
+			$('#billitem').css("border", "hidden");
+			$('#billitem').css("overflow-y", "hidden");
 			$('#items .panel-title.a').html('User list');
 			break;
 
@@ -459,6 +469,7 @@ nControl.qtyUpdate = function (index) {
 };
 // quantity to popup
 nControl.setNewQty = function (index) {
+	'use strict';
 	var qty = parseInt($('.newqty').val())
 		, i = 0
 		, j = nControl.billItems.length;
@@ -715,7 +726,7 @@ nControl.deduct = function (dnum, dqty) {
 			$('.itemsitems .table').html('');
 			$('.itemsitems .table').append(appendinv);
 			for (var i = 0, j = docs.length; i < j; i++) {
-				$('.itemsitems .table').append("<tr><td id='entryia'><div class='btn-group'><button class=\"btn btn-danger btn-xs\" data-toggle=\"modal\" data-target=\"#myModal\" onClick=\"nControl.removeinv(" + docs[i].num + ");\">x</button><button class=\"btn btn-warning btn-xs\" data-toggle=\"modal\" data-target=\"#myModal\" onclick=\"nControl.updateInv(" + docs[i].num + ")\">Update</button></div></td><td id='entryib'>" + docs[i].name + "</td><td id='entryic'>" + docs[i].price + "</td><td id='entryie'>" + docs[i].num + "</td><td id='entryig'>" + docs[i].category + "</td></tr>");
+				$('.itemsitems .table').append("<tr><td id='itemsa'><div class='btn-group'><button class=\"btn btn-danger btn-xs\" data-toggle=\"modal\" data-target=\"#myModal\" onClick=\"nControl.removeinv(" + docs[i].num + ");\">x</button><button class=\"btn btn-warning btn-xs\" data-toggle=\"modal\" data-target=\"#myModal\" onclick=\"nControl.updateInv(" + docs[i].num + ")\">Update</button></div></td><td id='itemsb'>" + docs[i].name + "</td><td id='itemsc'>" + docs[i].price + "</td><td id='itemse'>" + docs[i].num + "</td><td id='itemsg'>" + docs[i].category + "</td></tr>");
 			}
 		});
 	});
@@ -788,7 +799,7 @@ nControl.showitems = function () {
 		$('.itemsitems .table').html('');
 		$('.itemsitems .table').append(appendinv);
 		for (var i = 0, j = docs.length; i < j; i++) {
-			$('.itemsitems .table').append("<tr><td id='entryia'><div class='btn-group'><button class=\"btn btn-danger btn-xs\" data-toggle=\"modal\" data-target=\"#myModal\" onClick=\"nControl.removeinv(" + docs[i].num + ");\">x</button><button class=\"btn btn-warning btn-xs\" data-toggle=\"modal\" data-target=\"#myModal\" onclick=\"nControl.updateInv(" + docs[i].num + ")\">Update</button></div></td><td id='entryib'>" + docs[i].name + "</td><td id='entryic'>" + docs[i].price + "</td><td id='entryie'>" + docs[i].num + "<td id='entryig'>" + docs[i].category + "</td></tr>");
+			$('.itemsitems .table').append("<tr><td id='itemsa'><div class='btn-group'><button class=\"btn btn-danger btn-xs\" data-toggle=\"modal\" data-target=\"#myModal\" onClick=\"nControl.removeinv(" + docs[i].num + ");\">x</button><button class=\"btn btn-warning btn-xs\" data-toggle=\"modal\" data-target=\"#myModal\" onclick=\"nControl.updateInv(" + docs[i].num + ")\">Update</button></div></td><td id='itemsb'>" + docs[i].name + "</td><td id='itemsc'>" + docs[i].price + "</td><td id='itemse'>" + docs[i].num + "<td id='itemsg'>" + docs[i].category + "</td></tr>");
 			for (var m = 0, n = nControl.itemCategories.length; m < n; m++) {
 				if (docs[i].category.toUpperCase() === nControl.itemCategories[m]) {
 					$('#' + nControl.itemCategories[m]).append("<div class=\"btn btn-default\" onclick=\"nControl.addFromProducts(" + docs[i].num + ");nControl.total();\">" + docs[i].name + "<br>" + docs[i].price + "</div>");
@@ -819,7 +830,7 @@ nControl.loadEntries = function (a) {
 			else {
 				x = 'inline';
 			}
-			$("#entries").append("<tr style=\"display:" + x + "\"><td id=\"entrya\"><div class='btn-group'><button class='btn btn-xs btn-danger' onclick=\"nControl.confirmrementry(" + docs[i].entrynum + ");\">x</button>&nbsp;<button class='btn btn-xs btn-info' onclick=\"viewdetails(" + docs[i].entrynum + ");\" class='actionview'>View</button></div></td>" + "<td id='entryb'>" + docs[i].entrynum + "</td>" +"<td id='entryh'>"+docs[i].billno+"</td>"+ "<td id='entryc' autocomplete='off' data-content='" + docs[i].date + "'>" + docs[i].date + "</td>" + "<td id='entryd'>" + docs[i].details.summary + "</td>" + "<td id='entrye' class='direction'>" + docs[i].direction + "</td>" + "<td id='entryf'>" + docs[i].amount + "</td></tr>");
+			$("#entries").append("<tr style=\"display:" + x + "\"><td id=\"entrya\"><div class='btn-group'><button class='btn btn-xs btn-danger' onclick=\"nControl.confirmrementry(" + docs[i].entrynum + ");\">x</button>&nbsp;<button class='btn btn-xs btn-info' onclick=\"viewdetails(" + docs[i].entrynum + ");\" class='actionview'>View</button></div></td>" + "<td id='entryb'>" + docs[i].entrynum + "</td>" + "<td id='entryc' autocomplete='off' data-content='" + docs[i].date + "'>" + docs[i].date + "</td>" + "<td id='entryd'>" + docs[i].details.summary + "</td>" + "<td id='entrye' class='direction'>" + docs[i].direction + "</td>" + "<td id='entryf'>" + docs[i].amount + "</td></tr>");
 		}
 		$("#entries").prepend(appendtable);
 		showbalance();
@@ -990,6 +1001,7 @@ nControl.upditems = function (item) {
 	nControl.pid();
 };
 
+// setting modal call
 nControl.opensettingsmodal = function () {
 	$("#settings").modal('show');
 }

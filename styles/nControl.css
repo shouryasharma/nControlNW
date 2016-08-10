@@ -389,6 +389,31 @@ body {
     min-width: 80px;
     max-width: 80px;
 }
+
+#itemsa {
+    min-width: 100px;
+    max-width: 100px;
+}
+#itemsb {
+    min-width: 174px;
+    max-width: 174px;
+}
+#itemsc {
+    min-width: 70px;
+    max-width: 70px;
+}
+#itemsd {
+    min-width: 75px;
+    max-width: 75px;
+}
+#itemse {
+    min-width: 80px;
+    max-width: 80px;
+}
+#itemsf {
+    min-width: 150px;
+    max-width: 150px;
+}
 /*items Items*/
 
 .itemsitems .table {
