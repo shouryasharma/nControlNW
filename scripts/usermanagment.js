@@ -61,12 +61,11 @@ nControl.remuser = function (user) {
 	db.user.remove({
 		ids: user
 	}, {}, function (err, numRemoved) {
-		//load items from db.items to display
-		nControl.itemCategory();
+
 	});
 	$('#myModal').modal('hide');
-	nControl.finduser();
-	nControl.uid();
+	nControl.showuser();
+
 };
 nControl.finduser = function () {
 	db.user.find({}).sort({
@@ -81,9 +80,9 @@ nControl.upduser = function (user) {
 	db.user.find({
 		ids: user
 	}, function (err, docs) {
-		$('.user_id').val(docs[0].name);
-		$('.role_type').val(docs[0].price);
-		$('.ids').val(docs[0].num);
+		$('.user_id').val(docs[0].username);
+		$('.role_type').val(docs[0].role);
+
 	});
 
 	db.user.remove({
@@ -105,8 +104,7 @@ nControl.upduser = function (user) {
 		});
 	});
 	$('#myModal').modal('hide');
-	nControl.finduser();
-	nControl.uid();
+
 };
 //load items from database to Sell (UI)
 nControl.showuser = function () {
