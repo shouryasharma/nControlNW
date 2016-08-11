@@ -9,7 +9,7 @@ var nControl = {},
     authset = false,
     appendtable = "<thead><tr><th id='entrya'>Action</th><th id='entryb'>TRN-ID</th><th id='entryc'>Date</th><th id='entryd'>Details</th><th id='entrye'><span style='color:blue'>In</span><span style='color:#999'>/</span><span style='color:red'><b>Out</b></span></th><th id='entryf'>Amount</th></thead>",
     entrynum,nbillno, flag = 0,
-    appendinv = "<thead><tr><th id='itemsa'>Action</th><th id='itemsb'>Name</th><th id='itemsc'>Price</th><th id='itemse'>PID/DN</th><th id='itemsg'>Category</th></thead>",
+    appendinv = "<thead><tr><th id='itemsa'>Action</th><th id='itemsp'>IMG</th><th id='itemsb'>Name</th><th id='itemsc'>Price</th><th id='itemse'>PID/DN</th><th id='itemsg'>Category</th></thead>",
     userdiv = "<thead><tr><th id='usera'>Action</th><th id='userb'>Name</th><th id='userc'>role</th><th id='usere'>ID</th></thead>";
 nControl.init = function () {
 	var n = nControl;
@@ -27,13 +27,14 @@ nControl.presets = function () {
 	$('.extra').hide();
 	//    $('.control2').hide();
 	$('#itemsmanager').hide();
+	$('#usermanager').hide();
 	//Following are disabled without password
 	$('.controlitems').addClass('disabled');
 	$('.execute').addClass('disabled');
 	$('.totalpedigree').hide();
 	$('#myModal').modal('show');
 	$('#myModal .modal-title').html('Welcome to <b>nControl</b>');
-	$('#myModal .modal-body').html('Enter admin password or click \'Ignore\'<br><br><div class="row"><div class="col-lg-6"></div><!-- /input-group --></div><!-- /.col-lg-6 --><div class="col-lg-6"><div class="input-group"><input class=\"luser form-control\" type=\"text\" placeholder=\"USER NAME\"><input class=\"authpass form-control\" type=\"password\" placeholder=\"Password\"><button class="authbutton btn btn-primary" type="button">Go!</button></span></div><!-- /input-group --></div><!-- /.col-lg-6 --></div><!-- /.row --><br><br><br><br><br><div class="alert alert-warning" id=\"nmsg\"></div>');
+	$('#myModal .modal-body').html('Enter admin password or click \'Ignore\'<br><br><div class="row"><div class="col-lg-6"></div><!-- /input-group --></div><!-- /.col-lg-6 --><div class="col-lg-6"><div class="input-group"><input class=\"luser form-control\" type=\"text\" placeholder=\"Username\"><input class=\"authpass form-control\" type=\"password\" placeholder=\"Password\"><button class="authbutton btn btn-primary" type="button">Go!</button></span></div><!-- /input-group --></div><!-- /.col-lg-6 --></div><!-- /.row --><br><br><br><br><br><div class="alert alert-warning" id=\"nmsg\"></div>');
 	$('#notifaction').hide();
 	$('.authbutton').addClass('authgo');
 	$('#notifclosebutton').html('Ignore');
@@ -761,7 +762,7 @@ nControl.itemCategory = function () {
 			arr[i] = docs[i].category.toUpperCase();
 		}
 		var k = arr.length;
-		//check if it exists
+//		check if it exists
 		while (l < k) {
 			//if it doesnt exist push the value in the array
 			if (nControl.itemCategories.indexOf(arr[l]) === -1) {
@@ -799,10 +800,10 @@ nControl.showitems = function () {
 		$('.itemsitems .table').html('');
 		$('.itemsitems .table').append(appendinv);
 		for (var i = 0, j = docs.length; i < j; i++) {
-			$('.itemsitems .table').append("<tr><td id='itemsa'><div class='btn-group'><button class=\"btn btn-danger btn-xs\" data-toggle=\"modal\" data-target=\"#myModal\" onClick=\"nControl.removeinv(" + docs[i].num + ");\">x</button><button class=\"btn btn-warning btn-xs\" data-toggle=\"modal\" data-target=\"#myModal\" onclick=\"nControl.updateInv(" + docs[i].num + ")\">Update</button></div></td><td id='itemsb'>" + docs[i].name + "</td><td id='itemsc'>" + docs[i].price + "</td><td id='itemse'>" + docs[i].num + "<td id='itemsg'>" + docs[i].category + "</td></tr>");
+			$('.itemsitems .table').append("<tr><td id='itemsa'><div class='btn-group'><button class=\"btn btn-danger btn-xs\" data-toggle=\"modal\" data-target=\"#myModal\" onClick=\"nControl.removeinv(" + docs[i].num + ");\">x</button><button class=\"btn btn-warning btn-xs\" data-toggle=\"modal\" data-target=\"#myModal\" onclick=\"nControl.updateInv(" + docs[i].num + ")\">Update</button></div></td>" + "<td id=\"itemsp\"><img  width=\"60\" height=\"30\" src="+ docs[i].pic + "></td>" + "<td id='itemsb'>" + docs[i].name + "</td><td id='itemsc'>" + docs[i].price + "</td><td id='itemse'>" + docs[i].num + "<td id='itemsg'>" + docs[i].category + "</td></tr>");
 			for (var m = 0, n = nControl.itemCategories.length; m < n; m++) {
 				if (docs[i].category.toUpperCase() === nControl.itemCategories[m]) {
-					$('#' + nControl.itemCategories[m]).append("<div class=\"btn btn-default\" onclick=\"nControl.addFromProducts(" + docs[i].num + ");nControl.total();\">" + docs[i].name + "<br>" + docs[i].price + "</div>");
+					$('#' + nControl.itemCategories[m]).append("<div class=\"btn btn-default\" onclick=\"nControl.addFromProducts(" + docs[i].num + ");nControl.total();\">"+ "<img  width=\"60\" height=\"45\" src="+ docs[i].pic + ">" + "<br>"  + docs[i].name + " - " + docs[i].price + "</div>");
 				}
 			}
 		}
@@ -844,6 +845,7 @@ $('.addtoitems').click(function () {
 	db.items.name = $('.itemsitem').val();
 	db.items.price = parseInt($('.itemsprice').val());
 	db.items.num = parseInt($('.itemsnum').val());
+	db.items.pic = $('.picpicker').val();
 	db.items.category = $('#itemscategory').val();
 	db.items.category = db.items.category.replace(/\s/g, "-");
 	db.items.find({
@@ -859,6 +861,7 @@ $('.addtoitems').click(function () {
 						, price: db.items.price
 						, num: db.items.num
 						, category: db.items.category.toUpperCase()
+						, pic : db.items.pic
             }
         ]);
 				setTimeout(function () {
@@ -870,6 +873,7 @@ $('.addtoitems').click(function () {
 				$('.itemsprice').val('');
 				$('.itemsnum').val('');
 				$('#itemscategory').val('');
+				$('.picpicker').val('');
 			}
 			else {
 				$('#myModal').modal('show');
@@ -977,6 +981,7 @@ nControl.upditems = function (item) {
 		$('.itemsprice').val(docs[0].price);
 		$('.itemsnum').val(docs[0].num);
 		$('#itemscategory').val(docs[0].category);
+		$('.picpicker').val(docs[0].pic);
 	});
 	//    $('.itemsitems').val();
 	db.items.remove({
@@ -991,7 +996,7 @@ nControl.upditems = function (item) {
 			$('#products').html('');
 			$('.itemsitems .table').append(appendinv);
 			for (var i = 0, j = docs.length; i < j; i++) {
-				$('.itemsitems .table').append("<tr><td id='entryia'><div class='btn-group'><button class=\"btn btn-danger btn-xs\" data-toggle=\"modal\" data-target=\"#myModal\" onClick=\"nControl.removeinv(" + docs[i].num + ");\">x</button><button class=\"btn btn-warning btn-xs\" data-toggle=\"modal\" data-target=\"#myModal\" onclick=\"nControl.updateInv(" + docs[i].num + ")\">Update</button></div></td><td id='entryib'>" + docs[i].name + "</td><td id='entryic'>" + docs[i].price + "</td><td id='entryie'>" + docs[i].num + "</td><td id='entryig'>" + docs[i].category + "</td></tr>");
+				$('.itemsitems .table').append("<tr><td id='itemsa'><div class='btn-group'><button class=\"btn btn-danger btn-xs\" data-toggle=\"modal\" data-target=\"#myModal\" onClick=\"nControl.removeinv(" + docs[i].num + ");\">x</button><button class=\"btn btn-warning btn-xs\" data-toggle=\"modal\" data-target=\"#myModal\" onclick=\"nControl.updateInv(" + docs[i].num + ")\">Update</button></div></td>" + "<td id=\"itemsp\"><img  width=\"60\" height=\"30\" src="+ docs[i].pic + "></td>" + "<td id='itemsb'>" + docs[i].name + "</td><td id='itemsc'>" + docs[i].price + "</td><td id='itemse'>" + docs[i].num + "<td id='itemsg'>" + docs[i].category + "</td></tr>");
 				$('#products').append("<div class=\"btn btn-default\" onclick=\"nControl.addFromProducts(" + docs[i].num + ");nControl.total();\">" + docs[i].name + "<br>" + docs[i].price + "</div>");
 			}
 		});

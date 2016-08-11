@@ -26,3 +26,8 @@
 /data/items.db
 /data/user.db
 /file.xls
+/data_old/items.db
+/data_old/node.db
+/data_old/prefs.db
+/data_old/sales.db
+/data_old/user.db

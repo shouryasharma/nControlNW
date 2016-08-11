@@ -174,12 +174,18 @@ Author(s):
                             <div id="the-basics">
                                 <input id="itemscategory" class="itemscategory typeahead form-control" autocomplete="off" type="text" placeholder="Category">
                             </div>
-                            <br>
+                            Upload Image:<br>
+<!--                            <span class="picpicker btn-default btn-file">-->
+                             Browse
+<!--                             <input type="file" class="picpker">-->
+                              <input type="file" class="picpicker" name="pic" accept="image/*">
+<!--                             </span>-->
+                            <br><br>
                             <button class="addtoitems btn btn-default">ADD</button>
                         </div>
                         <div id="partd" style="display:none;">
                             <h3>User Control</h3>
-                            Item Name:
+                            Username:
                             <input class="user_id form-control" type="text" placeholder="Username">
                             Role:
                             <input class="role_type form-control" type="text" placeholder="Role">
@@ -206,7 +212,7 @@ Author(s):
                                     </li>
                                 </ul>
                             </div>
-                            <div style="width:90px;" class="controlitems btn btn-default" onclick="nControl.setView(2);">items</div>
+                            <div style="width:90px;" class="controlitems btn btn-default" onclick="nControl.setView(2);">Items</div>
                             <div style="width:90px;" class="btn btn-default" onclick="nControl.opensettingsmodal();">Settings</div>
                         </div>
                     </div>
