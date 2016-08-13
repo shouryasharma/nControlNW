@@ -50,8 +50,8 @@ nControl.createuser = function (){
 	var urole = $('.urole').val();
 	var passcode = $('.upassword').val();
 	var passcode1 = $('.upassword1').val();
-	if(passcode == passcode1)
-		{
+	if(passcode == passcode1){
+		if(username != "" ||  passcode1 != "" || passcode != ""){
 	     db.user.insert([
 		{
 			username: username
@@ -61,6 +61,6 @@ nControl.createuser = function (){
 
 		}
 	]);
-
+            }
 		}
 }

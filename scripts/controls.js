@@ -33,8 +33,9 @@ nControl.presets = function () {
 	$('.execute').addClass('disabled');
 	$('.totalpedigree').hide();
 	$('#myModal').modal('show');
+	$('#myModal').modal({backdrop: 'static', keyboard: false});
 	$('#myModal .modal-title').html('Welcome to <b>nControl</b>');
-	$('#myModal .modal-body').html('Enter admin password or click \'Ignore\'<br><br><div class="row"><div class="col-lg-6"></div><!-- /input-group --></div><!-- /.col-lg-6 --><div class="col-lg-6"><div class="input-group"><input class=\"luser form-control\" type=\"text\" placeholder=\"Username\"><input class=\"authpass form-control\" type=\"password\" placeholder=\"Password\"><button class="authbutton btn btn-primary" type="button">Go!</button></span></div><!-- /input-group --></div><!-- /.col-lg-6 --></div><!-- /.row --><br><br><br><br><br><div class="alert alert-warning" id=\"nmsg\"></div>');
+	$('#myModal .modal-body').html('Enter admin password or click \'Ignore\'<br><br><div class="row"><div class="col-lg-6"></div><!-- /input-group --></div><!-- /.col-lg-6 --><div class="col-lg-6"><div class="input-group"><input class=\"luser form-control\" type=\"text\" placeholder=\"Username\" autofocus><input class=\"authpass form-control\" type=\"password\" placeholder=\"Password\"><input class="authbutton btn btn-primary" type="submit" value="Login"></span></div></div></div><br><br><br><br><br><div class="alert alert-warning" id=\"nmsg\"></div>');
 	$('#notifaction').hide();
 	$('.authbutton').addClass('authgo');
 	$('#notifclosebutton').html('Ignore');
@@ -1018,6 +1019,7 @@ nControl.opensettingsmodal = function () {
 //initialize nControl
 $(document).ready(function () {
 	nControl.init();
+	$(".luser").focus();
 	//Synchronize repeatedly after a set interval of time
 	setInterval(function () {
 		nControl.getsales();

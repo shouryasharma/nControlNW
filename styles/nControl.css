@@ -543,11 +543,11 @@ body {
     font-size: 16px;
 }
 
-.btn-file {
+.picpicker {
     position: relative;
     overflow: hidden;
 }
-.btn-file input[type=file] {
+.picpicker input[type=file] {
     position: absolute;
     top: 0;
     right: 0;
@@ -561,4 +561,12 @@ body {
     background: white;
     cursor: inherit;
     display: block;
+}
+
+.authpass{
+    margin-top: 1px;
+}
+
+.authbutton{
+    margin-top: 1px;
 }

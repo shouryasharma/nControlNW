@@ -51,6 +51,7 @@ nControl.getItems = function () {
 					, price: docs[i].price
 					, num: docs[i].num
 					, category: docs[i].category
+					,  pic : docs[i].pic
 
 				});
 			} else {
@@ -59,6 +60,7 @@ nControl.getItems = function () {
 					, price: docs[i].price
 					, num: docs[i].num
 					, category: docs[i].category
+					, pic: docs[i].pic
 				});
 			}
 			//Create Array of the items
