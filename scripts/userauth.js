@@ -37,7 +37,7 @@ nControl.auth = function () {
 					$("#nmsg").html("<b>Oh snap!</b> Incorrect password. Please try again.");
 					setTimeout(function () {
 						$('#nmsg').fadeOut();
-					}, 1000);
+					},1000);
 				}
 			});
 	   	});

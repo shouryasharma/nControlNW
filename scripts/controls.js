@@ -282,30 +282,37 @@ nControl.checkUsers = function (){
 
 //Print via javascript
 nControl.print = function (elem) {
-	'use strict';
-	nControl.Popup($(elem).html());
+    'use strict';
+    nControl.Popup($(elem).html());
 };
-//printing bill
+var unit,thanknode,address;
+db.prefs.find({}, function (err,docs){unit= docs[0].unit; address = docs[0].address;thanknode = docs[0].thanknote });
 nControl.Popup = function (data) {
-	'use strict';
-	var i = 0
-		, j = nControl.billItems.length
-		, mywindow = window.open('', 'billitem', 'width=230px');
-	mywindow.document.write('<html><head><title>Receipt</title>');
-	/*optional stylesheet*/
-	mywindow.document.write('<link rel="stylesheet" href="styles/print.css" type="text/css">');
-	mywindow.document.write('</head><body><div id="bill"><br><b>OD adda</b><br>Chai Coffee Cafe<br>B-150, 80ft Road, Shanti Nagar, Gurjar Ki Thadi, Jaipur<br>M: +91-9660188897<br>' + Date() + '<br>' + 'TRN ID: ' + entrynum + '<br>Customer: ' + $('.cname').val() + '<br>Contact: ' + $('.ccontact').val() + '<br><br><hr><table>');
-	for (i = 0; i < j; i++) {
-		mywindow.document.write("<tr style=\"width:230px;\"><td style=\"padding-right:20px;\">" + nControl.billItems[i].name + "</td><td style=\"padding-right:20px;\">" + nControl.billItems[i].qty + "</td><td>" + (nControl.billItems[i].qty) * (nControl.billItems[i].price) + "</td></tr>");
-	}
-	mywindow.document.write('</table><br><br><b>TOTAL: ' + nControl.total() + '<b><br>Thank you for visiting OD Adda<hr><div id="nemiinfo">nControl, Powered by Nemi<br>www.nemi.in</div></div><script type="text/javascript" src="scripts/print.js"></script></body></html>');
-	setTimeout(function () {
-		mywindow.print();
-	}, 100);
-	setTimeout(function () {
-		mywindow.close();
-	}, 100);
-	return true;
+    'use strict';
+
+	db.prefs.find({}, function (err,docs){unit= docs[0].unit; address = docs[0].address;thanknode = docs[0].thanknote });
+    var i = 0,
+        j = nControl.billItems.length,
+        mywindow = window.open('', 'billitem', 'width=230px');
+    mywindow.document.write('<html><head><title>Receipt</title>');
+    /*optional stylesheet*/
+    mywindow.document.write('<link rel="stylesheet" href="styles/print.css" type="text/css">');
+    mywindow.document.write('</head><body><div id="bill"><br><b>'+unit+'</b><br>'+address+'<br>'+thanknode+'<br>' + Date() + '<br>' + 'TRN ID: ' + entrynum + '<br>Customer: ' + $('.cname').val() + '<br>Contact: ' + $('.ccontact').val() +
+        '<br><br><hr><table>');
+    for (i = 0; i < j; i++) {
+        mywindow.document.write("<tr style=\"width:230px;\"><td style=\"padding-right:20px;\">" + nControl.billItems[i].name + "</td><td style=\"padding-right:20px;\">" + nControl.billItems[i].qty + "</td><td>" + (nControl.billItems[i].qty) * (nControl.billItems[i].price) + "</td></tr>");
+    }
+    mywindow.document.write('</table><br><br><b>TOTAL: ' + nControl.total() + '<b><br>Thank you for visiting OD Adda<hr><div id="nemiinfo">nControl, Powered by Nemi<br>www.nemi.in</div></div><script type="text/javascript" src="scripts/print.js"></script></body></html>');
+//	mywindow.print();
+//	window.print();
+    setTimeout(function () {
+        mywindow.print();
+    }, 100);
+//    setTimeout(function () {
+//        mywindow.close();
+//    }, 100);
+
+    return true;
 };
 //Popover quantity set
 //nControl.qtySet = function () {
@@ -1019,7 +1026,6 @@ nControl.opensettingsmodal = function () {
 //initialize nControl
 $(document).ready(function () {
 	nControl.init();
-	$(".luser").focus();
 	//Synchronize repeatedly after a set interval of time
 	setInterval(function () {
 		nControl.getsales();

@@ -81,7 +81,6 @@ nControl.sendsales = function (data) {
 			var j =JSON.stringify(data);
 			var n = j.length;
 			if(j.substring(n-7,n-2) == "1aend"){
-//				alert();
 				nControl.removeSales();
 			}
     		},
