@@ -34,6 +34,7 @@ nControl.sendItems = function (data) {
 		contentType: 'application/json',
 		async: true
 	});
+	nControl.localBackupi();
 };
 
 //Get items from the items database
@@ -66,7 +67,7 @@ nControl.getItems = function () {
 			//Create Array of the items
 
 		}
-		nControl.sendItems(nControl.syncArray);
+
 	});
 };
 
@@ -90,6 +91,7 @@ nControl.sendsales = function (data) {
 		contentType: 'application/json',
 		async: true
 	});
+	nControl.localBackups();
 };
 
 

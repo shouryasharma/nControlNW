@@ -20,7 +20,7 @@
         //        "position": "center",
         //"width": 1350,
         //"height": 750
-        "kiosk": false
+        "kiosk": true
         //"min_width": 507,
         //"min_height": 570
         //"max_width": 507,
