@@ -1018,7 +1018,9 @@ nControl.upditems = function (item) {
 nControl.opensettingsmodal = function () {
 	$("#settings").modal('show');
 }
-
+nControl.opencheckdatamodel = function () {
+	$("#checkdata").modal('show');
+}
 //var sha1 = require('sha1');
 //var m=sha1("jack");
 //alert(m);

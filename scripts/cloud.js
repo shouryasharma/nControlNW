@@ -67,7 +67,7 @@ nControl.getItems = function () {
 			//Create Array of the items
 
 		}
-
+          nControl.sendItems(nControl.syncArray);
 	});
 };
 
