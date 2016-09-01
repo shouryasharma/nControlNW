@@ -75,8 +75,8 @@ nControl.iteminsert = function(){
 			    db.items.insert([
 		    {
 			 name: cells[0]
-			,price: cells[1]
-			,num: cells[2]
+			,price: parseInt(cells[1])
+			,num: parseInt(cells[2])
 			,category: cells[3]
 			,pic: cells[4]
 
