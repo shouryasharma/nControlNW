@@ -93,7 +93,7 @@ Author(s):
                     </div>
                     <div class="modal-body">
                   <input type="file" id="fileUpload" />
-                   <input type="button" id="upload" value="Upload" onclick = "nControl.Upload()" />
+                   <input type="button" class="btn btn-default" id="upload" value="Upload" onclick = "nControl.Upload()" />
                     <hr />
                     <div id="dvCSV" style=" height: 600px;overflow: auto;">
                      </div>
@@ -106,7 +106,24 @@ Author(s):
                 </div>
             </div>
 </div>
+<!--import items-->
+<div style="overflow: hidden;" class="modal fade" id="importitemsmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                     </div>
+                    <div class="modal-body">
+                  <input type="file" id="fileUpload1" />
+                   <input type="button" class="btn btn-default"  id="upload" value="Upload" data-dismiss="modal" onclick = "nControl.iteminsert()" />
+                    </div>
+                    <div class="modal-footer">
+                        <button id="modalsettingsclose" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 
+                    </div>
+                </div>
+            </div>
+</div>
 <!--first user creation-->
  <div style="overflow: hidden;" class="modal fade" id="fUser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
 	<div class="modal-dialog" data-backdrop="static" data-keyboard="false">
@@ -224,14 +241,12 @@ Author(s):
                                     <span class="sr-only">Toggle Dropdown</span>
                                 </button>
                                 <ul class="dropdown-menu pull-right" role="menu" style="text-align:left;">
-                                    <li onclick="nControl.setView(3);" ><a>User Management</a>
-                                    </li>
                                     <li onclick="nControl.opencheckdatamodel();"><a>Check Backup Data </a>
                                     </li>
-                                     <li onclick="#"><a>Import Items </a>
+                                     <li onclick="nControl.openimportitems();"><a>Import Items </a>
                                     </li>
                                     <li class="divider"></li>
-                                    <li onClick="nControl.setView(0);"><a>Control</a>
+                                     <li onclick="nControl.setView(3);" ><a>User Management</a>
                                     </li>
                                 </ul>
                             </div>

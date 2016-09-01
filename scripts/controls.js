@@ -1021,6 +1021,9 @@ nControl.opensettingsmodal = function () {
 nControl.opencheckdatamodel = function () {
 	$("#checkdata").modal('show');
 }
+nControl.openimportitems = function () {
+	$("#importitemsmodal").modal('show');
+}
 //var sha1 = require('sha1');
 //var m=sha1("jack");
 //alert(m);

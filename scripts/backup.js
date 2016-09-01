@@ -6,7 +6,7 @@ var writeStream = fs.createWriteStream("../backup/item/items.csv");
 		"num": 1
 	, }).exec(function (err, docs) {
 		for (var i = 0, j = docs.length; i < j; i++) {
-             var row1 = "\"" +  docs[i].name + "\"" + "\t" + "\"" + docs[i].price + "\"" + "\t" + "\"" + docs[i].num + "\"" + "\t" + "\"" + docs[i].category + "\"" + "\t" + "\"" + docs[i].pic + "\"" + "\n";
+             var row1 =   docs[i].name  + "\t" + docs[i].price  + "\t" +  docs[i].num + "\t" +  docs[i].category + "\t" +  docs[i].pic + "\n";
              writeStream.write(row1);
 		}
 	});
@@ -41,7 +41,7 @@ var writeStream = fs.createWriteStream("../backup/sale/sales"+Date().substr(4, 1
                 var rows = e.target.result.split("\n");
                 for (var i = 0; i < rows.length; i++) {
                     var row = table.insertRow(-1);
-                    var cells = rows[i].split(",");
+                    var cells = rows[i].split("\t");
                     for (var j = 0; j < cells.length; j++) {
                         var cell = row.insertCell(-1);
                         cell.innerHTML = cells[j];
@@ -53,9 +53,45 @@ var writeStream = fs.createWriteStream("../backup/sale/sales"+Date().substr(4, 1
             }
             reader.readAsText(fileUpload.files[0]);
         } else {
-            alert("This browser does not support HTML5.");
+            alert("Error.");
         }
     } else {
         alert("Please upload a valid CSV file.");
     }
+}
+
+nControl.iteminsert = function(){
+	 var fileUpload = document.getElementById("fileUpload1");
+       var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
+	if (regex.test(fileUpload.value.toLowerCase())) {
+        if (typeof (FileReader) != "undefined") {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                var table = document.createElement("table");
+                var rows = e.target.result.split("\n");
+                for (var i = 0; i < rows.length-1; i++) {
+                    var row = table.insertRow(-1);
+                    var cells = rows[i].split("\t");
+			    db.items.insert([
+		    {
+			 name: cells[0]
+			,price: cells[1]
+			,num: cells[2]
+			,category: cells[3]
+			,pic: cells[4]
+
+		     }
+	       ]);
+
+                }
+
+            }
+             reader.readAsText(fileUpload.files[0]);
+        } else {
+            alert("Error.");
+        }
+    } else {
+        alert("Please upload a valid CSV file.");
+    }
+	alert("items are restored"+ "/n"+ "Please restart nControl!!!")
 }
