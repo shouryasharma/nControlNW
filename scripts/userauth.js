@@ -27,7 +27,7 @@ nControl.auth = function () {
 						$('#progressbar').css("width", "150px");
 					}, 90);
 					setTimeout(function () {
-						$('#myModal').modal('hide');
+						$('#myModal1').modal('hide');
 					}, 100);
 				}
  				//if pass is wrong

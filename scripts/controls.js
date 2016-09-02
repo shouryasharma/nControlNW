@@ -32,10 +32,10 @@ nControl.presets = function () {
 	$('.controlitems').addClass('disabled');
 	$('.execute').addClass('disabled');
 	$('.totalpedigree').hide();
-	$('#myModal').modal('show');
-	$('#myModal').modal({backdrop: 'static', keyboard: false});
-	$('#myModal .modal-title').html('Welcome to <b>nControl</b>');
-	$('#myModal .modal-body').html('Enter admin password or click \'Ignore\'<br><br><div class="row"><div class="col-lg-6"></div><!-- /input-group --></div><!-- /.col-lg-6 --><div class="col-lg-6"><div class="input-group"><input class=\"luser form-control\" type=\"text\" placeholder=\"Username\" autofocus><input class=\"authpass form-control\" type=\"password\" placeholder=\"Password\"><input class="authbutton btn btn-primary" type="submit" value="Login"></span></div></div></div><br><br><br><br><br><div class="alert alert-warning" id=\"nmsg\"></div>');
+//	$('#myModal').modal('show');
+	$('#myModal1').modal({backdrop: 'static', keyboard: false});
+	$('#myModal1 .modal-title').html('Welcome to <b>nControl</b>');
+	$('#myModal1 .modal-body').html('Login To nControl<br><br><div class="row"><div class="col-lg-6"></div><!-- /input-group --></div><!-- /.col-lg-6 --><div class="col-lg-6"><div class="input-group"><input class=\"luser form-control\" type=\"text\" placeholder=\"Username\" autofocus><input class=\"authpass form-control\" type=\"password\" placeholder=\"Password\"><input class="authbutton btn btn-primary" type="submit" value="Login"></span></div></div></div><br><br><br><br><br><div class="alert alert-warning" id=\"nmsg\"></div>');
 	$('#notifaction').hide();
 	$('.authbutton').addClass('authgo');
 	$('#notifclosebutton').html('Ignore');
@@ -302,7 +302,7 @@ nControl.Popup = function (data) {
     for (i = 0; i < j; i++) {
         mywindow.document.write("<tr style=\"width:230px;\"><td style=\"padding-right:20px;\">" + nControl.billItems[i].name + "</td><td style=\"padding-right:20px;\">" + nControl.billItems[i].qty + "</td><td>" + (nControl.billItems[i].qty) * (nControl.billItems[i].price) + "</td></tr>");
     }
-    mywindow.document.write('</table><br><br><b>TOTAL: ' + nControl.total() + '<b><br>Thank you for visiting OD Adda<hr><div id="nemiinfo">nControl, Powered by Nemi<br>www.nemi.in</div></div><script type="text/javascript" src="scripts/print.js"></script></body></html>');
+    mywindow.document.write('</table><br><br><b>TOTAL: ' + nControl.total() + '<b><br>Thank you for visiting<hr><div id="nemiinfo">nControl, Powered by Nemi<br>www.nemi.in</div></div><script type="text/javascript" src="scripts/print.js"></script></body></html>');
 //	mywindow.print();
 //	window.print();
     setTimeout(function () {
@@ -1016,13 +1016,13 @@ nControl.upditems = function (item) {
 
 // setting modal call
 nControl.opensettingsmodal = function () {
-	$("#settings").modal('show');
+	$("#settings").modal({backdrop: 'static', keyboard: false});
 }
 nControl.opencheckdatamodel = function () {
-	$("#checkdata").modal('show');
+	$("#checkdata").modal({backdrop: 'static', keyboard: false});
 }
 nControl.openimportitems = function () {
-	$("#importitemsmodal").modal('show');
+	$("#importitemsmodal").modal({backdrop: 'static', keyboard: false});
 }
 //var sha1 = require('sha1');
 //var m=sha1("jack");

@@ -570,3 +570,8 @@ body {
 .authbutton{
     margin-top: 1px;
 }
+ @media screen and (min-width: 992px) {
+        .modal-lg {
+          width: 800px; /* New width for large modal */
+        }
+    }

@@ -133,7 +133,10 @@ nControl.getsales = function () {
 
 //flusing data from node
 //nControl.flush();
+var flashtime;
+db.prefs.find({}, function (err,docs){flashtime = docs[0].flash});
 nControl.flushUpadate = function(){
+	db.prefs.find({}, function (err,docs){flashtime = docs[0].flash});
 	db.sales.find({}).sort({
 		"entrynum": 1
 	, }).exec(function (err, docs) {
@@ -145,7 +148,7 @@ nControl.flushUpadate = function(){
 			var dateDays = (d.getMonth() + 1)*30+d.getDate()+d.getFullYear()*365;
 			var currentDateDays = (u.getMonth() + 1)*30+u.getDate()+u.getFullYear()*365;
 			var dayDiff = currentDateDays - dateDays;
-			if(dayDiff>0){
+			if(dayDiff>flashtime){
 				db.sales.update({
 		                entrynum: i
 	                          }, {
@@ -155,7 +158,8 @@ nControl.flushUpadate = function(){
 
 			           })
 			}
-}})};
+}})
+};
 
 // removinf sales in machine
 nControl.removeSales = function(){

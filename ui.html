@@ -49,17 +49,32 @@ Author(s):
                 </div>
             </div>
         </div>
+<!--loginmodel-->
+      <div style="overflow: hidden;" class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel"><div class="alert alert-warning" style="width:100px;">Attention</div></h4>
+                    </div>
+                    <div class="modal-body">
+                    </div>
+                    <div class="modal-footer">
+
+                    </div>
+                </div>
+            </div>
+        </div>
 <!--Modal: Settings-->
         <div style="overflow: hidden;" class="modal fade" id="settings" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title" id="myModalLabel"><div class="alert alert-warning" >Settings</div></h4>
+                        <h4 class="modal-title" id="myModalLabel"><div  >Settings</div></h4>
                     </div>
                     <div class="modal-body">
                     <div class="form-group">
-                           <h3>Printer Slip</h3>
+                           <h3>Printer</h3>
                             <input class="unitname form-control" id="" placeholder="Unit" type="text" name="" class="box">
                             <input class="address form-control" id="" placeholder="Address" type="text" name="" class="box">
                             <input class="thanknote form-control" id="" placeholder="Thank You Note" type="text" name="" class="box">
@@ -69,23 +84,40 @@ Author(s):
                              <input class="gst form-control" id="" placeholder="GST" type="text" name="" class="box">
 				  </div>
                     <div class="form-group">
-
-                           <h3>Cloud login</h3>
+                           <h3>Cloud </h3>
                             <input class="idd form-control" id="idd" placeholder="NODE ID" type="text" name="id" class="box">
                             <input class="password form-control" id="password" placeholder="Password" type="password" name="password" class="box">
+                            <h4>Keep local backup:</h4><label class="custom-control custom-radio">
+                              <input id="radio1" name="local" type="radio" class="custom-control-input" value="1" checked>
+                              <span class="custom-control-indicator"></span>
+                              <span class="custom-control-description">Yes</span>
+                            </label>
+                            <label class="custom-control custom-radio">
+                              <input id="radio2" name="local" type="radio" class="custom-control-input" value="0">
+                              <span class="custom-control-indicator"></span>
+                              <span class="custom-control-description">No</span>
+                            </label><br>
+                            <h4>Flash Time</h4><label class="radio-inline">
+                              <input type="radio" name="Flash" id="inlineRadio1" value="7" checked> 7 Days
+                              </label>
+                              <label class="radio-inline">
+                              <input type="radio" name="Flash" id="inlineRadio2" value="14"> 14 Daya
+                            </label>
+                              <label class="radio-inline">
+                              <input type="radio" name="Flash" id="inlineRadio3" value="28"> 28 Days
+                            </label><br>
                              <button id="modalsetingssave"  class="modalsetingssave btn btn-primary" type="submit"  data-dismiss="modal">Save</button>
 				  </div>
                     </div>
                     <div class="modal-footer">
                         <button id="modalsettingsclose" type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-
                     </div>
                 </div>
             </div>
         </div>
 <!--check data-->
 <div style="overflow: hidden;" class="modal fade" id="checkdata" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -95,7 +127,7 @@ Author(s):
                   <input type="file" id="fileUpload" />
                    <input type="button" class="btn btn-default" id="upload" value="Upload" onclick = "nControl.Upload()" />
                     <hr />
-                    <div id="dvCSV" style=" height: 600px;overflow: auto;">
+                    <div id="dvCSV" style=" height: 400px;overflow: auto;">
                      </div>
 
                     </div>
@@ -243,7 +275,7 @@ Author(s):
                                 <ul class="dropdown-menu pull-right" role="menu" style="text-align:left;">
                                     <li onclick="nControl.opencheckdatamodel();"><a>Check Backup Data </a>
                                     </li>
-                                     <li onclick="nControl.openimportitems();"><a>Import Items </a>
+                                     <li  onclick="nControl.openimportitems();"><a>Import Items </a>
                                     </li>
                                     <li class="divider"></li>
                                      <li onclick="nControl.setView(3);" ><a>User Management</a>

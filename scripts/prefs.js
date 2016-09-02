@@ -10,6 +10,8 @@ $('.modalsetingssave').click(function () {
 	var gst= $('.gst').val();
 	var id = $('.idd').val();
 	var password = $('.password').val();
+	var radioValue = $("input[name='local']:checked").val();
+	var radioValue1 = $("input[name='Flash']:checked").val();
 	// save the data received from the user into the db.node
 	db.prefs.count({}, function (err, count) {
 	'use strict';
@@ -26,6 +28,8 @@ $('.modalsetingssave').click(function () {
 			,gst: gst
 			,id: id
 			,password: password
+			,local: radioValue
+			,flash: radioValue1
 		}
 	]);
       } else {
@@ -41,6 +45,8 @@ $('.modalsetingssave').click(function () {
 			,gst: gst
 			,id: id
 			,password: password
+			,local: radioValue
+			,flash: radioValue1
 		}
 	]);
 	}
