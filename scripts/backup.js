@@ -36,7 +36,7 @@ var writeStream = fs.createWriteStream("../backup/sale/sales"+Date().substr(4, 1
 		nControl.syncArray1 = [];
 		for (var i = 0, j = docs.length; i < j; i++) {
 			for (var k=0,n =docs[i].details.items.length; k<n; k++){
-			var row =   docs[i].entrynum  + "," + docs[i].date + "," + docs[i].amount + "," + docs[i].details.customer + "," + docs[i].details.contact+ "," + docs[i].details.summary + "," + docs[i].details.items[k].name + "," +  docs[i].details.items[k].price + "," + docs[i].details.items[k].qty + "," +  docs[i].details.items[k].num + "," +  docs[i].details.items[k].category  + "\n";
+			var row =   docs[i].entrynum  + "," + docs[i].date.substr(0,25) + "," + docs[i].amount + "," + docs[i].details.customer + "," + docs[i].details.contact+ "," + docs[i].details.items[k].name + "," +  docs[i].details.items[k].price + "," + docs[i].details.items[k].qty + "," +  docs[i].details.items[k].num + "," +  docs[i].details.items[k].category  + "\n";
 			writeStream.write(row);
 		} }
 
@@ -50,13 +50,14 @@ var writeStream = fs.createWriteStream("../backup/sale/sales"+Date().substr(4, 1
             var reader = new FileReader();
             reader.onload = function (e) {
                 var table = document.createElement("table");
+			table.id ='harry';
                 var rows = e.target.result.split("\n");
                 for (var i = 0; i < rows.length; i++) {
                     var row = table.insertRow(-1);
                     var cells = rows[i].split(",");
                     for (var j = 0; j < cells.length; j++) {
                         var cell = row.insertCell(-1);
-                        cell.innerHTML = cells[j];
+                        cell.innerHTML = cells[j]+"			";
                     }
                 }
                 var dvCSV = document.getElementById("dvCSV");

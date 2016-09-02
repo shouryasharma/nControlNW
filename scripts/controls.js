@@ -712,6 +712,7 @@ nControl.executepos = function (mode) {
 		}
 		nControl.reset();
 	});
+	nControl.billno();
 };
 //deduct the qty from items stock
 nControl.deduct = function (dnum, dqty) {

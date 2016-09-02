@@ -572,6 +572,21 @@ body {
 }
  @media screen and (min-width: 992px) {
         .modal-lg {
-          width: 800px; /* New width for large modal */
+          width: 700px; /* New width for large modal */
         }
-    }
+}
+#harry
+{
+    border: 1px solid #111;
+    background-color: #fff;
+}
+#harry th
+{
+    background-color:#eee;
+    font-weight: bold;
+}
+#harry th, #harry td
+{    width: 40px;
+    padding: 10px;
+    border-color:
+}

@@ -124,10 +124,24 @@ Author(s):
 
                     </div>
                     <div class="modal-body">
-                  <input type="file" id="fileUpload" />
-                   <input type="button" class="btn btn-default" id="upload" value="Upload" onclick = "nControl.Upload()" />
+                  <input type="file" id="fileUpload" style="display: inline;" />
+                   <input type="button" class="btn btn-default" id="upload" value="Upload" onclick = "nControl.Upload()" style="display: inline;" />
                     <hr />
-                    <div id="dvCSV" style=" height: 400px;overflow: auto;">
+                    <table id="harry">
+                     <tr>
+                     <th>TRN-ID</th>
+                     <th>Date</th>
+                     <th> &nbsp;&nbsp;&nbsp;Amount</th>
+                     <th>&nbsp;&nbsp;NAME</th>
+                     <th>&nbsp;&nbsp;&nbsp;&nbsp;Contact</th>
+                     <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Items</th>
+                     <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Price</th>
+                     <th>&nbsp;&nbsp;Qty</th>
+                     <th>Item-ID</th>
+                     <th>Category</th>
+				  </tr></table>
+                    <div id="dvCSV"  style=" height: 380px;overflow: auto;">
+
                      </div>
 
                     </div>
@@ -146,8 +160,8 @@ Author(s):
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                      </div>
                     <div class="modal-body">
-                  <input type="file" id="fileUpload1" />
-                   <input type="button" class="btn btn-default"  id="upload" value="Upload" data-dismiss="modal" onclick = "nControl.iteminsert()" />
+                  <input type="file" id="fileUpload1" style="display: inline;" />
+                   <input type="button" class="btn btn-default"  id="upload" value="Upload" data-dismiss="modal" onclick = "nControl.iteminsert()" style="display: inline;" />
                     </div>
                     <div class="modal-footer">
                         <button id="modalsettingsclose" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
