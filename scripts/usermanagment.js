@@ -50,7 +50,7 @@ nControl.userid = function(){
 db.user.find({ }).sort({ ids: -1 }).exec(function (err, docs) {
 ids = docs[0].ids +1;
 });}
-// remove item confirmation
+// remove user confirmation
 nControl.removeuser = function (user) {
 	$('#myModal .modal-body').html('Are you sure you want to remove this?');
 	$('#notifaction').show();
@@ -58,7 +58,7 @@ nControl.removeuser = function (user) {
 	$('#notifaction').html('Yes');
 	$('#notifaction').attr("onClick", "nControl.remuser(" + user + ");");
 };
-// update item confirmation
+// update user confirmation
 nControl.updateuser = function (user) {
 	$('#myModal .modal-title').html('Attention!');
 	$('#myModal .modal-body').html('Are you sure you want to update?<br><b>CAUTION!</b> Trying to update this will result in its removal but its contents will be copied above.');
@@ -98,7 +98,7 @@ nControl.upduser = function (user) {
 	db.user.remove({
 		ids: user
 	}, {}, function (err, numRemoved) {
-		//load items from db.items to display
+		//load user from db.user to display
 		db.user.find({}).sort({
 			ids: 1
 		}).exec(function (err, docs) {
@@ -116,8 +116,9 @@ nControl.upduser = function (user) {
 	$('#myModal').modal('hide');
 
 };
-//load items from database to Sell (UI)
+//load user from database to user mgt (UI)
 nControl.showuser = function () {
+	if (role == "SUPER"){
 	db.user.find({}).sort({
 		ids: 1
 	}).exec(function (err, docs) {
@@ -129,7 +130,24 @@ nControl.showuser = function () {
 
 		}
 	});
-};
-nControl.showuser();
+	} else {
+		db.user.find({}).sort({
+		ids: 1
+	}).exec(function (err, docs) {
+		nControl.userList = docs;
+		$('.user .table').html('');
+		$('.user .table').append(userdiv);
+		for (var i = 0, j = docs.length; i < j; i++) {
+			if(docs[i].role == "SUPER"){
+			$('.user .table').append("<tr><td id='entryia'><div class='btn-group'><button disabled class=\"btn btn-danger btn-xs\" data-toggle=\"modal\" data-target=\"#myModal\" onClick=\"nControl.removeuser(" + docs[i].ids + ");\">x</button><button disabled class=\"btn btn-warning btn-xs\" data-toggle=\"modal\" data-target=\"#myModal\" onclick=\"nControl.updateuser(" + docs[i].ids + ")\">Update</button></div></td><td id='entryib'>" + docs[i].username + "</td><td id='entryic'>" + docs[i].role + "</td><td id='entryie'>" + docs[i].ids  + "</td></tr>");
+			} else {
+				$('.user .table').append("<tr><td id='entryia'><div class='btn-group'><button class=\"btn btn-danger btn-xs\" data-toggle=\"modal\" data-target=\"#myModal\" onClick=\"nControl.removeuser(" + docs[i].ids + ");\">x</button><button class=\"btn btn-warning btn-xs\" data-toggle=\"modal\" data-target=\"#myModal\" onclick=\"nControl.updateuser(" + docs[i].ids + ")\">Update</button></div></td><td id='entryib'>" + docs[i].username + "</td><td id='entryic'>" + docs[i].role + "</td><td id='entryie'>" + docs[i].ids  + "</td></tr>");
+			}
+
+	}
+			});
+}};
+
+
 
 

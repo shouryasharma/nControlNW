@@ -19,6 +19,7 @@ nControl.auth = function () {
 				if (authpass === docs[0].password) {
 					authset = true,
 					role = docs[0].role;
+					nControl.showuser();
 				}
 				if (authset) {alert(role);
 					if(role == "SUPER" ){
