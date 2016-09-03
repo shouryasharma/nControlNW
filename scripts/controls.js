@@ -382,6 +382,7 @@ nControl.setView = function (view) {
 				$('#partc').show();
 				$('#items .panel-title.a').html('items');
 				$('#partd').hide();
+				$('#usermanager').hide();
 				break;
 			} else {
 				nControl.setView(1);

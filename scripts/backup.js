@@ -106,5 +106,5 @@ nControl.iteminsert = function(){
     } else {
         alert("Please upload a valid CSV file.");
     }
-	alert("items are restored"+ "/n"+ "Please restart nControl!!!")
+	alert("items are restored"+ "\n"+ "Please restart nControl!!!")
 }
