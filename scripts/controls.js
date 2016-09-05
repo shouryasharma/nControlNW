@@ -385,12 +385,19 @@ nControl.setView = function (view) {
 				$('#usermanager').hide();
 				break;
 			} else {
-				nControl.setView(1);
 				$('#myModal').modal('show');
 				$('#notifaction').hide();
 				$('#notifclosebutton').html('Close');
 				$('#myModal .modal-title').html('Attention!');
 				$('#myModal .modal-body').html('You cannot modify items while you have a bill pending!');
+				$('#money').hide();
+			      $('#usermanager').hide();
+			      $('#make.control').hide();
+			      $('#itemsmanager').hide();
+			      $('#make.bill').show();
+			      $('#itemscontent').fadeIn();
+			      $('#items .panel-title.a').html('Sell');
+			      break;
 			}
 		case 3:
 			$('#partd').show();

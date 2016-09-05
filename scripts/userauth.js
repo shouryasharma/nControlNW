@@ -22,7 +22,7 @@ nControl.auth = function () {
 					role = docs[0].role;
 					nControl.showuser();
 				}
-				if (authset) {alert(role);
+				if (authset) {
 					if(role == "SUPER" ){
 					$('.controlitems').removeClass('disabled');
 					$('.settingbutton').removeClass('disabled');
