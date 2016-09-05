@@ -12,7 +12,8 @@ nControl.auth = function () {
 		//user auth checker
 		$('.authgo').click(function () {
 			var lname = $('.luser').val();
-			var authpass = $('.authpass').val();
+			var pass = $('.authpass').val();
+			var authpass = nControl.crypt(pass);
 
 			//check if the username already exists
 			db.user.find({"username": lname},function (err, docs){
@@ -69,12 +70,13 @@ nControl.createuser = function (){
 	var passcode1 = $('.upassword1').val();
 	if(passcode == passcode1){
 		if(username != "" ||  passcode1 != "" || passcode != ""){
+			var authp = nControl.crypt(passcode);
 	     db.user.insert([
 		{
 			username: username
 			,role: urole
 			,ids:1
-			, password: passcode
+			, password: authp
 
 		}
 	]);

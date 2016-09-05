@@ -1,11 +1,12 @@
-
+var crypto = require('crypto');
 $('.addtouser').click(function () {
 	nControl.userid();
 
 	//get the data from the user
 	db.user.name = $('.user_id').val();
 	db.user.role = $('.role').val();
-	db.user.passcode = ($('.passuser').val());
+	var pass = ($('.passuser').val());
+	db.user.passcode = nControl.crypt(pass);
 	db.user.count({username: db.user.name}, function (err, docs) {
 
                 if(docs == 0){
@@ -16,7 +17,7 @@ $('.addtouser').click(function () {
 						username: db.user.name
 						, role: db.user.role
 						, ids:ids
-						, password: db.user.passcode
+						, password:db.user.passcode
             }
         ]);
 				setTimeout(function () {
@@ -148,6 +149,9 @@ nControl.showuser = function () {
 			});
 }};
 
+nControl.crypt = function(pass){
+var crypto = require('crypto');
+return crypto.createHash('md5').update(pass).digest('hex');
 
-
-
+}
+//nControl.crypt();
