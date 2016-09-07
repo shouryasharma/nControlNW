@@ -72,7 +72,7 @@ nControl.presets = function () {
 	$('.filter').click(function () {
 		$('#myModal').modal('show');
 		$('#myModal .modal-title').html('<b>Search</b> using the following filters:');
-		$('#myModal .modal-body').html('<b>TRN ID:</b><br><input id="strnid" type="text" class="form-control" placeholder="TRN-ID"><br><b>Direction:</b><br><div style="display:inline;" class="btn-group" data-toggle="buttons"><label class="btn btn-default"><input type="radio" name="sdirection" id="sin" value="In">In</label><label class="btn btn-default"><input type="radio" name="sdirection" id="sout" value="Out">Out</label></div><br><br><br><b>Date:</b><br>Start <input style="display:inline;width:160px;" type="date" class="sstartdate form-control" disabled> End <input style="display:inline;width:160px;" type="date" class="senddate form-control" placeholder="End Date" disabled><br><br><b>Product Details</b><input id="sitem" type="text" class="sitemname form-control" placeholder="Name" disabled><input type="text" class="form-control" placeholder="PID or DN" disabled><br><b>Customer Details:</b><br><input type="text" class="scustomername form-control" placeholder="Name"><input type="text" class="scustomercontact form-control" placeholder="Contact">');
+		$('#myModal .modal-body').html('<b>TRN ID:</b><br><input id="strnid" type="text" class="form-control" placeholder="TRN-ID"><br><b>Direction:</b><br><div style="display:inline;" class="btn-group" data-toggle="buttons"><label class="btn btn-default"><input type="radio" name="sdirection" id="sin" value="In">In</label><label class="btn btn-default"><input type="radio" name="sdirection" id="sout" value="Out">Out</label></div><br><br><br><b>Date:</b><br>Start <input style="display:inline;width:160px;" type="date" class="sstartdate form-control" > End <input style="display:inline;width:160px;" type="date" class="senddate form-control" placeholder="End Date" ><br><br><b>Customer Details:</b><br><input type="text" class="scustomername form-control" placeholder="Name"><input type="text" class="scustomercontact form-control" placeholder="Contact">');
 		$('#notifaction').show();
 		$('#notifclosebutton').html('Close');
 		$('#notifaction').html('Search');
@@ -91,7 +91,6 @@ nControl.website = function () {
 $('.execute').click(function () {
 	'use strict';
 	//Get entry data from user
-	billno();
 	window.details.summary = $('.details').val();
 	window.amount = $('.amount').val();
 	//count total entries in db.sales after user clicks on given button
@@ -102,14 +101,11 @@ $('.execute').click(function () {
 		} else {
 			direction = 'Out';
 		}
-		database.getEntryNum();
 		db.sales.count({}, function (err, count) {
 			window.entrynum = count + 1;
 		}, db.sales.insert({
 			entrynum: entrynum,
 			date: Date(),
-			date1: Date().substr(4, 12),
-			billno: nbillno,
 			details: details,
 			amount: amount,
 			from: 'manual',
@@ -616,6 +612,13 @@ nControl.about = function () {
 };
 // search for customer
 nControl.search = function () {
+	var d = $('.sstartdate').val()
+	var d1 = $('.senddate').val()
+	var pattern = /(\d{2})\.(\d{2})\.(\d{4})/;
+      var dt = new Date(d.replace(pattern,'$3-$2-$1'));
+	var dt1 = new Date(d1.replace(pattern,'$3-$2-$1'));
+	var dn = Number(dt);
+	var dn1 = Number(dt1);
 	//Clear previous filters
 	filters = {
 		"details.customer": $('.scustomername').val()
@@ -634,19 +637,15 @@ nControl.search = function () {
 		filters.entrynum = parseInt($('#strnid').val());
 	}
 	//filter-3-Date
-	//    if ($('.sstartdate').val() !== '' && $('.senddate').val() !== '') {
-	//        filters.date = {
-	//            $gte: $('.sstartdate').val(),
-	//            $lte: $('.senddate').val()
-	//        };
-	//    }
-	//filter-4-customer-name
-	//    if ($('.scustomername').val() !== '') {
-	//        filters = {
-	//            "details.customer": parseInt($('.scustomername').val())
-	//        };
-	//    }
-	//filter-5-customer-contact
+	    if ($('.sstartdate').val() !== '' && $('.senddate').val() !== '') {
+	        filters = {
+			 "date2":{
+				 $gte: dn
+				,$lte: dn1
+				  }
+	        };
+	    }
+	//filter-5-customer-contact and name
 	if ($('.scustomercontact').val() === '') {
 		delete filters["details.contact"];
 	}
@@ -682,6 +681,7 @@ nControl.executepos = function (mode) {
 		entrynum: entrynum
 		, date: Date()
 		, date1: Date().substr(4,12)
+		, date2: Number(new Date())
 		, billno: nbillno
 		, details: details
 		, amount: nControl.total()
@@ -835,6 +835,7 @@ nControl.itemCategory();
 var filters = {};
 nControl.loadEntries = function (a) {
 	//load entries from db.sales
+//	db.sales.count(a, function (err, docs) { alert(docs)});
 	db.sales.find(a).sort({
 		entrynum: -1
 	}).exec(function (err, docs) {
