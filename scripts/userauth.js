@@ -1,4 +1,5 @@
 //User Authenticaion
+var role
 nControl.auth = function () {
 	//do authorization
 	//find super in db
@@ -16,13 +17,29 @@ nControl.auth = function () {
 			//check if the username already exists
 			db.user.find({"username": lname},function (err, docs){
 				if (authpass === docs[0].password) {
-					authset = true;
+					authset = true,
+					role = docs[0].role;
 				}
-				if (authset) {
+				if (authset) {alert(role);
+					if(role == "USER" ){
+
+					}
+					else if (role == "ADMIN"){
 					$('.controlitems').removeClass('disabled');
+					$('.usermgtmgt').removeClass('disabled');
+					$('.checkbackupdata').removeClass('disabled');
+					$('.importitems').removeClass('disabled');
+					}
+					else{
+					$('.controlitems').removeClass('disabled');
+					$('.settingbutton').removeClass('disabled');
+					$('.checkbackupdata').removeClass('disabled');
+					$('.usermgtmgt').removeClass('disabled');
+					$('.importitems').removeClass('disabled');
 					$('.execute').removeClass('disabled');
 					$('.totalpedigree').show();
 					window.authset = true;
+				}
 					setTimeout(function () {
 						$('#progressbar').css("width", "150px");
 					}, 90);

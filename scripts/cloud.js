@@ -11,9 +11,9 @@ nControl.checkInternet = function () {
 };
 
 //Synchronization parameters & variables
-var cid = 20,
-    pass = 123,
-    syncTimeInterval = 3000,
+var cid ,pass;
+db.prefs.find({}, function (err,docs){cid = docs[0].id,pass = docs[0].password});
+var syncTimeInterval = 3000,
     url = 'http://52.36.204.20/cloud/post_items.php',
     syncTimeIntervalSales = 6000,
     urlSales = 'http://52.36.204.20/cloud/post_sales.php';

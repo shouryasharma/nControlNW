@@ -30,6 +30,10 @@ nControl.presets = function () {
 	$('#usermanager').hide();
 	//Following are disabled without password
 	$('.controlitems').addClass('disabled');
+	$('.settingbutton').addClass('disabled');
+	$('.checkbackupdata').addClass('disabled');
+	$('.usermgtmgt').addClass('disabled');
+	$('.importitems').addClass('disabled');
 	$('.execute').addClass('disabled');
 	$('.totalpedigree').hide();
 //	$('#myModal').modal('show');
