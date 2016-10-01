@@ -21,7 +21,15 @@ nControl.auth = function () {
 					role = docs[0].role;
 				}
 				if (authset) {alert(role);
-					if(role == "USER" ){
+					if(role == "SUPER" ){
+					$('.controlitems').removeClass('disabled');
+					$('.settingbutton').removeClass('disabled');
+					$('.checkbackupdata').removeClass('disabled');
+					$('.usermgtmgt').removeClass('disabled');
+					$('.importitems').removeClass('disabled');
+					$('.execute').removeClass('disabled');
+					$('.totalpedigree').show();
+
 
 					}
 					else if (role == "ADMIN"){
@@ -30,16 +38,7 @@ nControl.auth = function () {
 					$('.checkbackupdata').removeClass('disabled');
 					$('.importitems').removeClass('disabled');
 					}
-					else{
-					$('.controlitems').removeClass('disabled');
-					$('.settingbutton').removeClass('disabled');
-					$('.checkbackupdata').removeClass('disabled');
-					$('.usermgtmgt').removeClass('disabled');
-					$('.importitems').removeClass('disabled');
-					$('.execute').removeClass('disabled');
-					$('.totalpedigree').show();
 					window.authset = true;
-				}
 					setTimeout(function () {
 						$('#progressbar').css("width", "150px");
 					}, 90);

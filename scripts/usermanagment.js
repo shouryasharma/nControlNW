@@ -1,22 +1,21 @@
-//Add to items
+
 $('.addtouser').click(function () {
-	nControl.finditems();
+	nControl.userid();
 
 	//get the data from the user
 	db.user.name = $('.user_id').val();
-	db.user.role = $('.role_type').val();
+	db.user.role = $('.role').val();
 	db.user.passcode = ($('.passuser').val());
-	db.user.count({
-	}, function (err, docs) {
-		db.user.ids = docs + 1;
+	db.user.count({username: db.user.name}, function (err, docs) {
 
+                if(docs == 0){
 			if (db.user.name !== '' && db.user.role !== ''  && db.user.passcode !== '') {
 				//save the data received from the user into the db.user
 				db.user.insert([
 					{
 						username: db.user.name
 						, role: db.user.role
-						, ids: db.user.ids
+						, ids:ids
 						, password: db.user.passcode
             }
         ]);
@@ -35,11 +34,22 @@ $('.addtouser').click(function () {
 				$('#notifclosebutton').show();
 				$('#notifclosebutton').html('Close');
 				$('#myModal .modal-body').html("All fields are mandatory");
+			}} else {
+				$('#myModal').modal('show');
+				$('#notifaction').hide();
+				$('#notifclosebutton').show();
+				$('#notifclosebutton').html('Close');
+				$('#myModal .modal-body').html("you alredy have account with "+db.user.name+"<br>"+"please select different name");
 			}
 
 
 	});
 });
+var ids
+nControl.userid = function(){
+db.user.find({ }).sort({ ids: -1 }).exec(function (err, docs) {
+ids = docs[0].ids +1;
+});}
 // remove item confirmation
 nControl.removeuser = function (user) {
 	$('#myModal .modal-body').html('Are you sure you want to remove this?');
