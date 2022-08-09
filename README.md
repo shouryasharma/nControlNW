@@ -28,4 +28,4 @@ In nControl, entries are of 2 types:
 </ul>
 </blockquote>
   
-nControl is currently in pre-BETA<br><br>Copyright 2011-14 <b><a href="http://www.nemi.in/">Nemi</a></b>. All rights reserved. Visit us at www.nemi.in. Mail us at: contact@nemi.in<br><br>Made with love for web technologies by <b><a href="http://www.nemi.in/">Nemi</a></b>.<br><br> - <i>Shourya Sharma</i><br>shouryasharma@gmail.com</div>
+nControl is currently in BETA<br><br>Made with love for web technologies by:<br><br> - <i>Shourya Sharma</i><br>shouryasharma@gmail.com</div>
