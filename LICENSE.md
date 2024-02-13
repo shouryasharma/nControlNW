@@ -1,8 +1,7 @@
 //////////////////////////////////nControl LICENSE START//////////////////////////////////
-////////////Copyright Nemi Consultancy Services. All rights reserved./////////////////////
 
 Copying, distributing, redistributing code or any part of this application without prior 
-written consent from Nemi is prohibited.
+written consent is prohibited.
 
 THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
 INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR 
@@ -12,6 +11,3 @@ OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 DEALINGS IN THE SOFTWARE.
 
 //////////////////////////////////LICENSE END/////////////////////////////////////////////
-
-
-Please contact us at contact@nemi.in for further information.
